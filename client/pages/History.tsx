@@ -61,11 +61,11 @@ export default function History() {
                   <PopoverContent className="w-80 rounded-xl border bg-popover text-popover-foreground">
                     <div className="space-y-3">
                       <div>
-                        <div className="mb-1 text-xs text-white/60">Time Range</div>
+                        <div className="mb-1 text-xs text-muted-foreground">Time Range</div>
                         <select
                           value={timeRange}
                           onChange={(e) => setTimeRange(e.target.value)}
-                          className="w-full rounded-xl border border-white/10 bg-[#0b1220] px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full rounded-xl border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
                         >
                           <option value="7">Last 7 days</option>
                           <option value="30">Last 30 days</option>
@@ -74,11 +74,11 @@ export default function History() {
                         </select>
                       </div>
                       <div>
-                        <div className="mb-1 text-xs text-white/60">Type</div>
+                        <div className="mb-1 text-xs text-muted-foreground">Type</div>
                         <select
                           value={type}
                           onChange={(e) => setType(e.target.value)}
-                          className="w-full rounded-xl border border-white/10 bg-[#0b1220] px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full rounded-xl border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
                         >
                           <option value="all">All Types</option>
                           <option value="deposit">Deposit</option>
@@ -89,11 +89,11 @@ export default function History() {
                         </select>
                       </div>
                       <div>
-                        <div className="mb-1 text-xs text-white/60">Status</div>
+                        <div className="mb-1 text-xs text-muted-foreground">Status</div>
                         <select
                           value={status}
                           onChange={(e) => setStatus(e.target.value)}
-                          className="w-full rounded-xl border border-white/10 bg-[#0b1220] px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full rounded-xl border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
                         >
                           <option value="all">All Statuses</option>
                           <option value="completed">Completed</option>
@@ -104,10 +104,10 @@ export default function History() {
                     </div>
                   </PopoverContent>
                 </Popover>
-                <span className="text-xs text-white/60">Showing {filtered.length} of {SAMPLE.length} transactions</span>
+                <span className="text-xs text-muted-foreground">Showing {filtered.length} of {SAMPLE.length} transactions</span>
               </div>
             </div>
-            <div className="overflow-hidden rounded-xl border border-white/10 bg-[#0b1220]/60">
+            <div className="overflow-hidden rounded-xl border bg-card/60">
               <Table className="min-w-full">
                 <TableHeader>
                   <TableRow>
