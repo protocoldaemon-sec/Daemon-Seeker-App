@@ -106,7 +106,7 @@ export default function Home() {
           </header>
 
           <section className="px-4 py-8 md:px-8">
-            <div className="rounded-2xl border bg-card p-6 shadow-lg">
+            <div className="mx-auto w-full max-w-3xl rounded-2xl border bg-card p-6 shadow-lg">
               <h1 className="mb-4 text-xl font-semibold">
                 Smart Contract Pre-Audit
               </h1>
