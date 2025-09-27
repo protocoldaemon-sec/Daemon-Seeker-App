@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import GlowParticles from "@/components/GlowParticles";
 
 export default function Index() {
   const navigate = useNavigate();
