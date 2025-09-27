@@ -13,7 +13,7 @@ export default function Index() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen overflow-hidden bg-black">
+    <div className="min-h-screen overflow-hidden bg-gradient-to-b from-black via-[#05070b] to-black">
       <div className="relative grid min-h-screen place-items-center">
         {/* soft radial glow */}
         <motion.div
