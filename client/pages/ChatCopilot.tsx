@@ -165,7 +165,7 @@ export default function ChatCopilot() {
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-[#0a0f16] via-[#0b1220] to-[#04070c]">
+    <div className="relative min-h-screen bg-background">
       <GlowParticles count={22} color="56,189,248" />
       <div className="md:grid md:grid-cols-[16rem_1fr]">
         <div className="hidden md:block">
