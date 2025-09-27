@@ -271,25 +271,27 @@ export default function ChatCopilot() {
             ))}
           </div>
 
-          {/* Input */}
-          <div className="border-t bg-background/60 p-3 backdrop-blur">
+          {/* Composer (sticky like ChatGPT) */}
+          <div className="sticky bottom-0 z-20 border-t bg-background/80 p-3 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="mx-auto flex max-w-3xl items-center gap-2">
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && send()}
-                placeholder="Ask Daemon Copilot anything or paste an address to analyze…"
-                className="flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
-              />
-              <Button
-                onClick={send}
-                disabled={loading}
-                size="icon"
-                aria-label="Send message"
-                title="Send"
-              >
-                <Send className="h-4 w-4" />
-              </Button>
+              <div className="flex w-full items-center gap-2 rounded-full bg-muted px-3 py-2 shadow-sm ring-1 ring-border focus-within:ring-2 focus-within:ring-ring">
+                <input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && send()}
+                  placeholder="Ask Daemon Copilot anything or paste an address to analyze…"
+                  className="flex-1 bg-transparent px-1 text-sm outline-none placeholder:text-muted-foreground"
+                />
+                <button
+                  onClick={send}
+                  disabled={loading}
+                  aria-label="Send message"
+                  title="Send"
+                  className="grid h-9 w-9 place-items-center rounded-full bg-white text-black transition hover:bg-white/90 disabled:opacity-50 dark:bg-white dark:text-black"
+                >
+                  <Send className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           </div>
         </main>
