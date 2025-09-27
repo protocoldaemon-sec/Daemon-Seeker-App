@@ -41,7 +41,25 @@ export const postChatStream: RequestHandler = async (req, res) => {
       body: JSON.stringify(req.body ?? {}),
     });
     res.status(r.status);
-    // Mirror headers for streaming where possible
+    res.setHeader("Content-Type", r.headers.get("content-type") || "text/plain; charset=utf-8");
+    if (!r.body) return res.end();
+    for await (const chunk of r.body as any) {
+      res.write(chunk);
+    }
+    res.end();
+  } catch (e) {
+    res.status(500).end("stream_error");
+  }
+};
+
+export const postAnalyze: RequestHandler = async (req, res) => {
+  try {
+    const r = await fetch(`${AGENT_BASE}/analyze`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(req.body ?? {}),
+    });
+    res.status(r.status);
     res.setHeader("Content-Type", r.headers.get("content-type") || "text/plain; charset=utf-8");
     if (!r.body) return res.end();
     for await (const chunk of r.body as any) {
