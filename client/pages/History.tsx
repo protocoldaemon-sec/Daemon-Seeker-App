@@ -48,7 +48,7 @@ export default function History() {
           <Sidebar />
         </div>
         <main className="flex min-h-screen flex-col p-4 md:p-6">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-xl">
+          <div className="rounded-2xl border bg-card p-4 shadow-xl">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-white">Transaction History</h2>
               <div className="flex items-center gap-3 text-sm text-white/80">
