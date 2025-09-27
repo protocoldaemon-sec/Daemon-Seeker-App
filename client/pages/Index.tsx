@@ -6,7 +6,7 @@ export default function Index() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const t = setTimeout(() => navigate("/onboarding"), 1800);
+    const t = setTimeout(() => navigate("/onboarding"), 7000);
     return () => clearTimeout(t);
   }, [navigate]);
 
@@ -40,7 +40,7 @@ export default function Index() {
             <img
               src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2F07ba890e3aab4ca6849316c4a5f61771?alt=media&token=4e518cea-12ba-4b50-9caa-0bb566b9a85e&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
               alt="Daemon blink logo"
-              className="h-28 w-28 object-contain"
+              className="h-40 w-40 object-contain md:h-48 md:w-48"
             />
             {/* subtle shine sweep */}
             <motion.div
