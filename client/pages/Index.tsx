@@ -182,17 +182,17 @@ export default function Index() {
                 ease: "easeInOut",
               }}
             />
-            <img
-              src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2F07ba890e3aab4ca6849316c4a5f61771?alt=media&token=4e518cea-12ba-4b50-9caa-0bb566b9a85e&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
-              alt="Daemon blink logo"
-              className="h-72 w-72 object-contain md:h-80 md:w-80"
-            />
-            {/* Exit transition: GIF zoom-in */}
-            {exiting && (
+            {!exiting ? (
+              <img
+                src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2F07ba890e3aab4ca6849316c4a5f61771?alt=media&token=4e518cea-12ba-4b50-9caa-0bb566b9a85e&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
+                alt="Daemon blink logo"
+                className="h-72 w-72 object-contain md:h-80 md:w-80"
+              />
+            ) : (
               <motion.img
                 src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2Fe619075757534028b6758b1e88bb9b7b?alt=media&token=33c8bc3a-75dc-497b-90c5-b58307046e3b&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
                 alt="Daemon logo"
-                className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 object-contain md:h-80 md:w-80"
+                className="h-72 w-72 object-contain md:h-80 md:w-80"
                 initial={{ scale: 1, opacity: 1 }}
                 animate={{ scale: 1.8, opacity: 0.9 }}
                 transition={{ duration: 0.8, ease: "easeInOut" }}
