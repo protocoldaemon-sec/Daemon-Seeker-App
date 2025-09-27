@@ -58,7 +58,7 @@ export default function History() {
                       <Filter className="mr-2 h-4 w-4" /> Filters
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-80 rounded-xl border-white/10 bg-[#0f1623] text-white">
+                  <PopoverContent className="w-80 rounded-xl border bg-popover text-popover-foreground">
                     <div className="space-y-3">
                       <div>
                         <div className="mb-1 text-xs text-white/60">Time Range</div>
