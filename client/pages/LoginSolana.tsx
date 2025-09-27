@@ -102,11 +102,11 @@ export default function LoginSolana() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-fuchsia-50">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto grid min-h-screen grid-cols-1 md:grid-cols-[16rem_1fr]">
         <div className="hidden md:block" />
-        <main className="flex flex-col items-center justify-center px-6 py-12">
-          <div className="w-full max-w-lg rounded-2xl border bg-card p-6 shadow-sm">
+        <main className="flex flex-col items-center justify-center px-4 py-8">
+          <div className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-sm">
             <h1 className="mb-1 text-2xl font-semibold">Login with Solana</h1>
             <p className="mb-6 text-sm text-muted-foreground">
               Connect your wallet, fetch a nonce, and sign the message for secure authentication.
