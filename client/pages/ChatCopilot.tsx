@@ -115,7 +115,7 @@ export default function ChatCopilot() {
       setMessages((m) => [...m, { id: assistantId, role: "assistant", content: "" }]);
       const chatRes = await fetch("/api/agent/chat-stream", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
         body: JSON.stringify({ message: user.content, systemPromptId: selectedPrompt }),
       });
       const chatText = await streamIntoMessage(chatRes, assistantId);
@@ -182,7 +182,7 @@ export default function ChatCopilot() {
                 <p className="mb-2 text-[12px] text-white/70">How can I assist you with your investigation today? You can ask me things like:</p>
                 <ul className="list-disc space-y-1 pl-5 text-[12px]">
                   <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Audit this smart contract: 0x...")}>Audit this smart contract: 0x…</button></li>
-                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Give me a summary of this transaction: txhash���")}>Give me a summary of this transaction: txhash…</button></li>
+                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Give me a summary of this transaction: txhash…")}>Give me a summary of this transaction: txhash…</button></li>
                   <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Trace the funds from this address: address…")}>Trace the funds from this address: address…</button></li>
                   <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Analyze security risks for: wallet_address")}>Analyze security risks for: wallet_address</button></li>
                 </ul>
