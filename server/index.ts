@@ -29,5 +29,8 @@ export function createServer() {
   app.post("/api/agent/analyze", require("./routes/agent").postAnalyze);
   app.get("/api/agent/analyze/:address", require("./routes/agent").getAnalyze);
 
+  // Daemon Analysis API generic proxy (GET/POST)
+  app.use("/api/daemon", require("./routes/daemon").proxyDaemon);
+
   return app;
 }
