@@ -5,11 +5,19 @@ import { Link } from "react-router-dom";
 import GlowParticles from "@/components/GlowParticles";
 import { CheckCircle2, MessageSquare, ArrowLeft, Send } from "lucide-react";
 
-interface Msg { id: string; role: "user" | "assistant"; content: string }
+interface Msg {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+}
 
 export default function ChatCopilot() {
   const [messages, setMessages] = useState<Msg[]>([
-    { id: "1", role: "assistant", content: "Hi! I’m your AI Copilot. How can I help?" },
+    {
+      id: "1",
+      role: "assistant",
+      content: "Hi! I’m your AI Copilot. How can I help?",
+    },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,11 +34,16 @@ export default function ChatCopilot() {
     return null;
   };
 
-  const streamIntoMessage = async (res: Response, msgId: string): Promise<string> => {
+  const streamIntoMessage = async (
+    res: Response,
+    msgId: string,
+  ): Promise<string> => {
     const reader = res.body?.getReader();
     if (!reader) return "";
     const decoder = new TextDecoder();
-    const isSSE = (res.headers.get("content-type") || "").includes("text/event-stream");
+    const isSSE = (res.headers.get("content-type") || "").includes(
+      "text/event-stream",
+    );
     let full = "";
 
     if (!isSSE) {
@@ -39,7 +52,11 @@ export default function ChatCopilot() {
         if (done) break;
         const chunk = decoder.decode(value, { stream: true });
         full += chunk;
-        setMessages((prev) => prev.map((m) => (m.id === msgId ? { ...m, content: (m.content || "") + chunk } : m)));
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === msgId ? { ...m, content: (m.content || "") + chunk } : m,
+          ),
+        );
       }
       return full;
     }
@@ -67,7 +84,10 @@ export default function ChatCopilot() {
               toAppend = obj;
             } else if (typeof obj.content === "string") {
               toAppend = obj.content;
-            } else if (obj.type === "content" && typeof obj.content === "string") {
+            } else if (
+              obj.type === "content" &&
+              typeof obj.content === "string"
+            ) {
               toAppend = obj.content;
             } else if (typeof obj.delta === "string") {
               toAppend = obj.delta;
@@ -82,7 +102,13 @@ export default function ChatCopilot() {
 
           if (toAppend) {
             full += toAppend;
-            setMessages((prev) => prev.map((m) => (m.id === msgId ? { ...m, content: (m.content || "") + toAppend } : m)));
+            setMessages((prev) =>
+              prev.map((m) =>
+                m.id === msgId
+                  ? { ...m, content: (m.content || "") + toAppend }
+                  : m,
+              ),
+            );
           }
         }
       }
@@ -98,26 +124,45 @@ export default function ChatCopilot() {
     setLoading(true);
     try {
       const assistantId = crypto.randomUUID();
-      setMessages((m) => [...m, { id: assistantId, role: "assistant", content: "" }]);
+      setMessages((m) => [
+        ...m,
+        { id: assistantId, role: "assistant", content: "" },
+      ]);
       const chatRes = await fetch("/api/agent/chat-stream", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "text/event-stream",
+        },
         body: JSON.stringify({ message: user.content }),
       });
       const chatText = await streamIntoMessage(chatRes, assistantId);
       const addr = extractAddress(chatText);
       if (addr) {
         const analyzeId = crypto.randomUUID();
-        setMessages((m) => [...m, { id: analyzeId, role: "assistant", content: "" }]);
+        setMessages((m) => [
+          ...m,
+          { id: analyzeId, role: "assistant", content: "" },
+        ]);
         const analyzeRes = await fetch("/api/agent/analyze", {
           method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "text/event-stream",
+          },
           body: JSON.stringify({ address: addr }),
         });
         await streamIntoMessage(analyzeRes, analyzeId);
       }
     } catch (e) {
-      setMessages((m) => [...m, { id: crypto.randomUUID(), role: "assistant", content: "Sorry, something went wrong." }]);
+      setMessages((m) => [
+        ...m,
+        {
+          id: crypto.randomUUID(),
+          role: "assistant",
+          content: "Sorry, something went wrong.",
+        },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -134,10 +179,15 @@ export default function ChatCopilot() {
           {/* Top bar */}
           <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-background/50 px-4 py-3 backdrop-blur md:px-6">
             <div className="flex items-center gap-2 text-sm font-medium">
-              <Link to="/home" className="mr-1 grid h-8 w-8 place-items-center rounded-md border bg-background/70 text-muted-foreground hover:bg-background">
+              <Link
+                to="/home"
+                className="mr-1 grid h-8 w-8 place-items-center rounded-md border bg-background/70 text-muted-foreground hover:bg-background"
+              >
                 <ArrowLeft className="h-4 w-4" />
               </Link>
-              <div className="grid h-6 w-6 place-items-center rounded-md bg-blue-500/20 text-blue-300"><MessageSquare className="h-4 w-4" /></div>
+              <div className="grid h-6 w-6 place-items-center rounded-md bg-blue-500/20 text-blue-300">
+                <MessageSquare className="h-4 w-4" />
+              </div>
               Daemon Copilot
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -151,26 +201,75 @@ export default function ChatCopilot() {
             {/* Welcome card */}
             {messages.length <= 1 && (
               <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/90 shadow-xl">
-                <div className="mb-1 text-[13px] font-semibold text-white/95">Welcome to Daemon Copilot</div>
-                <p className="mb-2 text-[12px] text-white/70">How can I assist you with your investigation today? You can ask me things like:</p>
+                <div className="mb-1 text-[13px] font-semibold text-white/95">
+                  Welcome to Daemon Copilot
+                </div>
+                <p className="mb-2 text-[12px] text-white/70">
+                  How can I assist you with your investigation today? You can
+                  ask me things like:
+                </p>
                 <ul className="list-disc space-y-1 pl-5 text-[12px]">
-                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Audit this smart contract: 0x...")}>Audit this smart contract: 0x…</button></li>
-                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Give me a summary of this transaction: txhash…")}>Give me a summary of this transaction: txhash…</button></li>
-                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Trace the funds from this address: address…")}>Trace the funds from this address: address…</button></li>
-                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Analyze security risks for: wallet_address")}>Analyze security risks for: wallet_address</button></li>
+                  <li>
+                    <button
+                      className="underline-offset-4 hover:underline"
+                      onClick={() => insert("Audit this smart contract: 0x...")}
+                    >
+                      Audit this smart contract: 0x…
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="underline-offset-4 hover:underline"
+                      onClick={() =>
+                        insert("Give me a summary of this transaction: txhash…")
+                      }
+                    >
+                      Give me a summary of this transaction: txhash…
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="underline-offset-4 hover:underline"
+                      onClick={() =>
+                        insert("Trace the funds from this address: address…")
+                      }
+                    >
+                      Trace the funds from this address: address…
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="underline-offset-4 hover:underline"
+                      onClick={() =>
+                        insert("Analyze security risks for: wallet_address")
+                      }
+                    >
+                      Analyze security risks for: wallet_address
+                    </button>
+                  </li>
                 </ul>
-                <p className="mt-2 text-[12px] text-white/60">I can perform real-time blockchain analysis and provide detailed security reports!</p>
+                <p className="mt-2 text-[12px] text-white/60">
+                  I can perform real-time blockchain analysis and provide
+                  detailed security reports!
+                </p>
               </div>
             )}
 
             {messages.map((m) => (
-              <div key={m.id} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
+              <div
+                key={m.id}
+                className={
+                  m.role === "user" ? "flex justify-end" : "flex justify-start"
+                }
+              >
                 <div className="relative">
-                  <div className={
-                    m.role === "user"
-                      ? "inline-block max-w-[80%] rounded-2xl bg-primary/90 px-4 py-2 text-primary-foreground break-words whitespace-pre-wrap"
-                      : "inline-block max-w-[80%] rounded-2xl bg-white/5 px-4 py-2 text-white/90 break-words whitespace-pre-wrap"
-                  }>
+                  <div
+                    className={
+                      m.role === "user"
+                        ? "inline-block max-w-[80%] rounded-2xl bg-primary/90 px-4 py-2 text-primary-foreground break-words whitespace-pre-wrap"
+                        : "inline-block max-w-[80%] rounded-2xl bg-white/5 px-4 py-2 text-white/90 break-words whitespace-pre-wrap"
+                    }
+                  >
                     {m.content}
                   </div>
                   {m.role === "user" ? (
@@ -193,7 +292,13 @@ export default function ChatCopilot() {
                 placeholder="Ask Daemon Copilot anything or paste an address to analyze…"
                 className="flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
               />
-              <Button onClick={send} disabled={loading} size="icon" aria-label="Send message" title="Send">
+              <Button
+                onClick={send}
+                disabled={loading}
+                size="icon"
+                aria-label="Send message"
+                title="Send"
+              >
                 <Send className="h-4 w-4" />
               </Button>
             </div>

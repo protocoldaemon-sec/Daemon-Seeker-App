@@ -25,23 +25,37 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
       <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/onboarding-1" element={<Onboarding />} />
-          <Route path="/onboarding-2" element={<Onboarding />} />
-          <Route path="/login" element={<LoginSolana />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/chat" element={<ChatCopilot />} />
-          <Route path="/settings" element={<Layout><Settings /></Layout>} />
-          <Route path="/faq" element={<Layout><FAQ /></Layout>} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/onboarding-1" element={<Onboarding />} />
+            <Route path="/onboarding-2" element={<Onboarding />} />
+            <Route path="/login" element={<LoginSolana />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/chat" element={<ChatCopilot />} />
+            <Route
+              path="/settings"
+              element={
+                <Layout>
+                  <Settings />
+                </Layout>
+              }
+            />
+            <Route
+              path="/faq"
+              element={
+                <Layout>
+                  <FAQ />
+                </Layout>
+              }
+            />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>

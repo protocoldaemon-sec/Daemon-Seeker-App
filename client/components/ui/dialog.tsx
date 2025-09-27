@@ -33,8 +33,10 @@ const DialogContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const contentProps = {
     ...(props as any),
-    'aria-label': (props as any)['aria-label'] ?? 'Dialog',
-  } as React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & { 'aria-label': string };
+    "aria-label": (props as any)["aria-label"] ?? "Dialog",
+  } as React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
+    "aria-label": string;
+  };
 
   return (
     <DialogPortal>

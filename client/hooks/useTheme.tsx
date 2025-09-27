@@ -1,4 +1,11 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 export type ThemeMode = "system" | "light" | "dark";
 
@@ -12,7 +19,10 @@ const ThemeContext = createContext<Ctx | undefined>(undefined);
 
 function getSystem(): "light" | "dark" {
   if (typeof window === "undefined") return "light";
-  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  return window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
 }
 
 function applyTheme(resolved: "light" | "dark") {
@@ -22,8 +32,12 @@ function applyTheme(resolved: "light" | "dark") {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeMode>(() => (localStorage.getItem("theme") as ThemeMode) || "system");
-  const [resolved, setResolved] = useState<"light" | "dark">(theme === "system" ? getSystem() : (theme as "light" | "dark"));
+  const [theme, setThemeState] = useState<ThemeMode>(
+    () => (localStorage.getItem("theme") as ThemeMode) || "system",
+  );
+  const [resolved, setResolved] = useState<"light" | "dark">(
+    theme === "system" ? getSystem() : (theme as "light" | "dark"),
+  );
 
   useEffect(() => {
     if (theme === "system") {
@@ -44,9 +58,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("theme", mode);
   }, []);
 
-  const value = useMemo<Ctx>(() => ({ theme, resolvedTheme: resolved, setTheme }), [theme, resolved, setTheme]);
+  const value = useMemo<Ctx>(
+    () => ({ theme, resolvedTheme: resolved, setTheme }),
+    [theme, resolved, setTheme],
+  );
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
 }
 
 export function useTheme() {

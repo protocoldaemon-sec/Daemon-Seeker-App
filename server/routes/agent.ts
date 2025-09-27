@@ -4,7 +4,9 @@ const AGENT_BASE = "https://agent.daemonprotocol.com";
 
 export const getSystemPrompts: RequestHandler = async (_req, res) => {
   try {
-    const r = await fetch(`${AGENT_BASE}/chat-daemon/system-prompts`, { headers: { accept: "application/json" } });
+    const r = await fetch(`${AGENT_BASE}/chat-daemon/system-prompts`, {
+      headers: { accept: "application/json" },
+    });
     const data = await r.json();
     res.status(r.status).json(data);
   } catch (e) {
@@ -16,7 +18,10 @@ export const postChat: RequestHandler = async (req, res) => {
   try {
     const r = await fetch(`${AGENT_BASE}/chat-daemon`, {
       method: "POST",
-      headers: { "content-type": "application/json", accept: "application/json" },
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+      },
       body: JSON.stringify(req.body ?? {}),
     });
     const ct = r.headers.get("content-type") || "";
@@ -41,7 +46,10 @@ export const postChatStream: RequestHandler = async (req, res) => {
       body: JSON.stringify(req.body ?? {}),
     });
     res.status(r.status);
-    res.setHeader("Content-Type", r.headers.get("content-type") || "text/plain; charset=utf-8");
+    res.setHeader(
+      "Content-Type",
+      r.headers.get("content-type") || "text/plain; charset=utf-8",
+    );
     if (!r.body) return res.end();
     for await (const chunk of r.body as any) {
       res.write(chunk);
@@ -60,7 +68,10 @@ export const postAnalyze: RequestHandler = async (req, res) => {
       body: JSON.stringify(req.body ?? {}),
     });
     res.status(r.status);
-    res.setHeader("Content-Type", r.headers.get("content-type") || "text/plain; charset=utf-8");
+    res.setHeader(
+      "Content-Type",
+      r.headers.get("content-type") || "text/plain; charset=utf-8",
+    );
     if (!r.body) return res.end();
     for await (const chunk of r.body as any) {
       res.write(chunk);

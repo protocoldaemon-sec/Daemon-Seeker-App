@@ -57,8 +57,10 @@ const SheetContent = React.forwardRef<
 >(({ side = "right", className, children, ...props }, ref) => {
   const contentProps = {
     ...(props as any),
-    'aria-label': (props as any)['aria-label'] ?? 'Sheet',
-  } as React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & { 'aria-label': string };
+    "aria-label": (props as any)["aria-label"] ?? "Sheet",
+  } as React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & {
+    "aria-label": string;
+  };
 
   return (
     <SheetPortal>

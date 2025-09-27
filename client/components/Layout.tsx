@@ -12,8 +12,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <main className="min-h-screen">
           <header className="sticky top-0 z-50 flex items-center justify-between border-b bg-background px-4 py-4 text-foreground md:hidden">
             <MobileNav />
-            <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 text-base font-semibold">daemon</div>
-            <button aria-label="Premium" className="inline-flex items-center justify-center rounded-2xl bg-muted p-4 text-foreground shadow-lg">
+            <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 text-base font-semibold">
+              daemon
+            </div>
+            <button
+              aria-label="Premium"
+              className="inline-flex items-center justify-center rounded-2xl bg-muted p-4 text-foreground shadow-lg"
+            >
               <Crown className="size-5 text-orange-400" />
             </button>
           </header>
