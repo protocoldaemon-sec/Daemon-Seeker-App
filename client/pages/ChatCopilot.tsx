@@ -261,8 +261,8 @@ export default function ChatCopilot() {
                 <div
                   className={
                     m.role === "user"
-                      ? "inline-block max-w-[80%] rounded-2xl bg-primary px-4 py-2 text-primary-foreground break-words whitespace-pre-wrap"
-                      : "inline-block max-w-[80%] rounded-2xl bg-muted px-4 py-2 text-foreground break-words whitespace-pre-wrap"
+                      ? "inline-block max-w-[80%] rounded-2xl bg-primary px-4 py-2 text-primary-foreground break-words whitespace-pre-wrap overflow-hidden"
+                      : "inline-block max-w-[80%] rounded-2xl bg-muted px-4 py-2 text-foreground break-words whitespace-pre-wrap overflow-hidden"
                   }
                 >
                   {m.content}
