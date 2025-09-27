@@ -182,11 +182,26 @@ export default function Index() {
                 ease: "easeInOut",
               }}
             />
-            <img
-              src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2F07ba890e3aab4ca6849316c4a5f61771?alt=media&token=4e518cea-12ba-4b50-9caa-0bb566b9a85e&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
-              alt="Daemon blink logo"
+            {/* Lottie placeholder: playing provided MP4 as splash animation */}
+            <video
+              src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2F45b7aa86d01a4fb5b9ccd8ad6eb2f7de?alt=media&token=194370e3-cdad-4cc7-89ae-61dbdbb8ded7&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
               className="h-72 w-72 object-contain md:h-80 md:w-80"
+              autoPlay
+              muted
+              playsInline
+              loop={false}
             />
+            {/* Exit transition: GIF zoom-in */}
+            {exiting && (
+              <motion.img
+                src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2Fe619075757534028b6758b1e88bb9b7b?alt=media&token=33c8bc3a-75dc-497b-90c5-b58307046e3b&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
+                alt="Daemon logo"
+                className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 object-contain md:h-80 md:w-80"
+                initial={{ scale: 1, opacity: 1 }}
+                animate={{ scale: 1.8, opacity: 0.9 }}
+                transition={{ duration: 0.8, ease: "easeInOut" }}
+              />
+            )}
             {/* full-screen soft shine sweep, feathered and rotated */}
             <motion.div
               aria-hidden
