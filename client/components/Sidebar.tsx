@@ -16,7 +16,10 @@ export default function Sidebar() {
         <span className="text-lg font-semibold">Daemon</span>
       </div>
       <nav className="space-y-1">
-        <NavItem to="/home" icon={<History className="size-4" />}>
+        <NavItem to="/home" icon={<Home className="size-4" />}>
+          Home
+        </NavItem>
+        <NavItem to="/history" icon={<History className="size-4" />}>
           History
         </NavItem>
         <NavItem to="/chat" icon={<MessageSquare className="size-4" />}>
