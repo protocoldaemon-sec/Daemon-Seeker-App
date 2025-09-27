@@ -44,13 +44,62 @@ export default function ChatCopilot() {
     const reader = res.body?.getReader();
     if (!reader) return "";
     const decoder = new TextDecoder();
+    const isSSE = (res.headers.get("content-type") || "").includes("text/event-stream");
     let full = "";
-    while (true) {
+
+    if (!isSSE) {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        full += chunk;
+        setMessages((prev) => prev.map((m) => (m.id === msgId ? { ...m, content: (m.content || "") + chunk } : m)));
+      }
+      return full;
+    }
+
+    let buffer = "";
+    outer: while (true) {
       const { done, value } = await reader.read();
       if (done) break;
-      const chunk = decoder.decode(value, { stream: true });
-      full += chunk;
-      setMessages((prev) => prev.map((m) => (m.id === msgId ? { ...m, content: (m.content || "") + chunk } : m)));
+      buffer += decoder.decode(value, { stream: true });
+
+      let idx;
+      while ((idx = buffer.indexOf("\n\n")) !== -1) {
+        const rawEvent = buffer.slice(0, idx);
+        buffer = buffer.slice(idx + 2);
+        const dataLines = rawEvent.match(/^data:\s?.*$/gm) || [];
+        for (const line of dataLines) {
+          const payload = line.replace(/^data:\s?/, "");
+          if (!payload) continue;
+          if (payload === "[DONE]") break outer;
+
+          let toAppend = "";
+          try {
+            const obj = JSON.parse(payload);
+            if (typeof obj === "string") {
+              toAppend = obj;
+            } else if (typeof obj.content === "string") {
+              toAppend = obj.content;
+            } else if (obj.type === "content" && typeof obj.content === "string") {
+              toAppend = obj.content;
+            } else if (typeof obj.delta === "string") {
+              toAppend = obj.delta;
+            } else if (typeof obj.message === "string" && !obj.status) {
+              toAppend = obj.message;
+            }
+          } catch {
+            if (!payload.startsWith("{") && !payload.startsWith("[")) {
+              toAppend = payload;
+            }
+          }
+
+          if (toAppend) {
+            full += toAppend;
+            setMessages((prev) => prev.map((m) => (m.id === msgId ? { ...m, content: (m.content || "") + toAppend } : m)));
+          }
+        }
+      }
     }
     return full;
   };
@@ -133,7 +182,7 @@ export default function ChatCopilot() {
                 <p className="mb-2 text-[12px] text-white/70">How can I assist you with your investigation today? You can ask me things like:</p>
                 <ul className="list-disc space-y-1 pl-5 text-[12px]">
                   <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Audit this smart contract: 0x...")}>Audit this smart contract: 0x…</button></li>
-                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Give me a summary of this transaction: txhash…")}>Give me a summary of this transaction: txhash…</button></li>
+                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Give me a summary of this transaction: txhash���")}>Give me a summary of this transaction: txhash…</button></li>
                   <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Trace the funds from this address: address…")}>Trace the funds from this address: address…</button></li>
                   <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Analyze security risks for: wallet_address")}>Analyze security risks for: wallet_address</button></li>
                 </ul>
