@@ -1,9 +1,8 @@
 import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
-import MobileNav from "@/components/MobileNav";
-import { useEffect } from "react";
-import { CheckCircle2, MessageSquare } from "lucide-react";
+import { Link } from "react-router-dom";
+import { CheckCircle2, MessageSquare, ArrowLeft } from "lucide-react";
 
 interface Msg { id: string; role: "user" | "assistant"; content: string }
 
@@ -12,21 +11,7 @@ export default function ChatCopilot() {
     { id: "1", role: "assistant", content: "Hi! I’m your AI Copilot. How can I help?" },
   ]);
   const [input, setInput] = useState("");
-  const [prompts, setPrompts] = useState<{ id?: string; name?: string; title?: string; content?: string }[]>([]);
-  const [selectedPrompt, setSelectedPrompt] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const r = await fetch("/api/agent/system-prompts");
-        if (!r.ok) return;
-        const data = await r.json();
-        const arr = Array.isArray(data) ? data : (data?.prompts || []);
-        setPrompts(arr);
-      } catch {}
-    })();
-  }, []);
 
   const insert = (t: string) => setInput(t);
 
@@ -116,7 +101,7 @@ export default function ChatCopilot() {
       const chatRes = await fetch("/api/agent/chat-stream", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
-        body: JSON.stringify({ message: user.content, systemPromptId: selectedPrompt }),
+        body: JSON.stringify({ message: user.content }),
       });
       const chatText = await streamIntoMessage(chatRes, assistantId);
       const addr = extractAddress(chatText);
@@ -147,6 +132,9 @@ export default function ChatCopilot() {
           {/* Top bar */}
           <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-background/50 px-4 py-3 backdrop-blur md:px-6">
             <div className="flex items-center gap-2 text-sm font-medium">
+              <Link to="/home" className="mr-1 grid h-8 w-8 place-items-center rounded-md border bg-background/70 text-muted-foreground hover:bg-background">
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
               <div className="grid h-6 w-6 place-items-center rounded-md bg-blue-500/20 text-blue-300"><MessageSquare className="h-4 w-4" /></div>
               Daemon Copilot
             </div>
@@ -154,23 +142,6 @@ export default function ChatCopilot() {
               <span className="hidden sm:inline">Status</span>
               <CheckCircle2 className="h-4 w-4 text-emerald-400" />
             </div>
-          </div>
-
-          {/* Prompt selector */}
-          <div className="flex items-center gap-2 border-b bg-muted/10 px-4 py-2 text-xs md:px-6">
-            <select
-              value={selectedPrompt || ""}
-              onChange={(e) => setSelectedPrompt(e.target.value || undefined)}
-              className="w-64 rounded-md border bg-background px-2 py-1"
-            >
-              <option value="">Default system prompt</option>
-              {prompts.map((p) => (
-                <option key={p.id || p.name || p.title} value={String(p.id || p.name || "")}>
-                  {p.title || p.name || p.id}
-                </option>
-              ))}
-            </select>
-            {loading && <span className="text-muted-foreground">Sending…</span>}
           </div>
 
           {/* Chat area */}
