@@ -55,7 +55,7 @@ function NavItem({
         cn(
           "flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors border-l-2",
           isActive
-            ? "bg-primary/10 text-foreground border-primary font-semibold"
+            ? "bg-sidebar-accent text-sidebar-accent-foreground border-primary shadow-sm font-semibold"
             : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground border-transparent",
         )
       }
