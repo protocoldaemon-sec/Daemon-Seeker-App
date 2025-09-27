@@ -2,6 +2,7 @@ import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import MobileNav from "@/components/MobileNav";
+import { useEffect } from "react";
 
 interface Msg { id: string; role: "user" | "assistant"; content: string }
 
@@ -10,16 +11,48 @@ export default function ChatCopilot() {
     { id: "1", role: "assistant", content: "Hi! I’m your AI Copilot. How can I help?" },
   ]);
   const [input, setInput] = useState("");
+  const [prompts, setPrompts] = useState<{ id?: string; name?: string; title?: string; content?: string }[]>([]);
+  const [selectedPrompt, setSelectedPrompt] = useState<string | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const r = await fetch("/api/agent/system-prompts");
+        if (!r.ok) return;
+        const data = await r.json();
+        const arr = Array.isArray(data) ? data : (data?.prompts || []);
+        setPrompts(arr);
+      } catch {}
+    })();
+  }, []);
 
   const send = async () => {
-    if (!input.trim()) return;
+    if (!input.trim() || loading) return;
     const user: Msg = { id: crypto.randomUUID(), role: "user", content: input };
     setMessages((m) => [...m, user]);
     setInput("");
-    setTimeout(() => {
-      const reply: Msg = { id: crypto.randomUUID(), role: "assistant", content: "Acknowledged. (Demo reply)" };
-      setMessages((m) => [...m, reply]);
-    }, 400);
+    setLoading(true);
+    try {
+      const r = await fetch("/api/agent/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: user.content, systemPromptId: selectedPrompt }),
+      });
+      const ct = r.headers.get("content-type") || "";
+      if (ct.includes("application/json")) {
+        const data = await r.json();
+        const text = data?.reply || data?.message || JSON.stringify(data);
+        setMessages((m) => [...m, { id: crypto.randomUUID(), role: "assistant", content: String(text) }]);
+      } else {
+        const text = await r.text();
+        setMessages((m) => [...m, { id: crypto.randomUUID(), role: "assistant", content: text }]);
+      }
+    } catch (e) {
+      setMessages((m) => [...m, { id: crypto.randomUUID(), role: "assistant", content: "Sorry, something went wrong." }]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -42,6 +75,22 @@ export default function ChatCopilot() {
               <p className="text-xs text-muted-foreground">Chat privately with your assistant</p>
             </div>
           </header>
+          <div className="flex items-center gap-2 border-b bg-muted/20 px-6 py-3 text-xs">
+            <select
+              value={selectedPrompt || ""}
+              onChange={(e) => setSelectedPrompt(e.target.value || undefined)}
+              className="w-64 rounded-md border bg-background px-2 py-1"
+            >
+              <option value="">Default system prompt</option>
+              {prompts.map((p) => (
+                <option key={p.id || p.name || p.title} value={String(p.id || p.name || "")}>
+                  {p.title || p.name || p.id}
+                </option>
+              ))}
+            </select>
+            {loading && <span className="text-muted-foreground">Sending…</span>}
+          </div>
+
           <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
             {messages.map((m) => (
               <div key={m.id} className={m.role === "user" ? "text-right" : "text-left"}>
@@ -64,7 +113,7 @@ export default function ChatCopilot() {
                 placeholder="Ask something..."
                 className="flex-1 rounded-full border bg-background px-4 py-2 outline-none focus:ring-2 focus:ring-ring"
               />
-              <Button onClick={send}>Send</Button>
+              <Button onClick={send} disabled={loading}>Send</Button>
             </div>
           </div>
         </main>
