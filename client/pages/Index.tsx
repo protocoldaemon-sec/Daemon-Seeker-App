@@ -182,14 +182,10 @@ export default function Index() {
                 ease: "easeInOut",
               }}
             />
-            {/* Lottie placeholder: playing provided MP4 as splash animation */}
-            <video
-              src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2F45b7aa86d01a4fb5b9ccd8ad6eb2f7de?alt=media&token=194370e3-cdad-4cc7-89ae-61dbdbb8ded7&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
+            <img
+              src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2F07ba890e3aab4ca6849316c4a5f61771?alt=media&token=4e518cea-12ba-4b50-9caa-0bb566b9a85e&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
+              alt="Daemon blink logo"
               className="h-72 w-72 object-contain md:h-80 md:w-80"
-              autoPlay
-              muted
-              playsInline
-              loop={false}
             />
             {/* Exit transition: GIF zoom-in */}
             {exiting && (
