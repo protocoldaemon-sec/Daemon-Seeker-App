@@ -193,11 +193,11 @@ export default function ChatCopilot() {
           <div className="flex-1 space-y-4 overflow-y-auto px-4 py-4 md:px-6 md:py-6">
             {/* Welcome card */}
             {messages.length <= 1 && (
-              <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/90 shadow-xl">
-                <div className="mb-1 text-[13px] font-semibold text-white/95">
+              <div className="w-full max-w-md rounded-2xl border bg-card p-4 text-sm text-foreground shadow-xl">
+                <div className="mb-1 text-[13px] font-semibold">
                   Welcome to Daemon Copilot
                 </div>
-                <p className="mb-2 text-[12px] text-white/70">
+                <p className="mb-2 text-[12px] text-muted-foreground">
                   How can I assist you with your investigation today? You can
                   ask me things like:
                 </p>
@@ -241,7 +241,7 @@ export default function ChatCopilot() {
                     </button>
                   </li>
                 </ul>
-                <p className="mt-2 text-[12px] text-white/60">
+                <p className="mt-2 text-[12px] text-muted-foreground">
                   I can perform real-time blockchain analysis and provide
                   detailed security reports!
                 </p>
@@ -258,8 +258,8 @@ export default function ChatCopilot() {
                 <div
                   className={
                     m.role === "user"
-                      ? "inline-block max-w-[80%] rounded-2xl bg-primary/90 px-4 py-2 text-primary-foreground break-words whitespace-pre-wrap"
-                      : "inline-block max-w-[80%] rounded-2xl bg-white/5 px-4 py-2 text-white/90 break-words whitespace-pre-wrap"
+                      ? "inline-block max-w-[80%] rounded-2xl bg-primary px-4 py-2 text-primary-foreground break-words whitespace-pre-wrap"
+                      : "inline-block max-w-[80%] rounded-2xl bg-muted px-4 py-2 text-foreground break-words whitespace-pre-wrap"
                   }
                 >
                   {m.content}
