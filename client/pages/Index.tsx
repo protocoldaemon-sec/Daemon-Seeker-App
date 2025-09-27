@@ -1,13 +1,15 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Index() {
   const navigate = useNavigate();
+  const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
-    const t = setTimeout(() => navigate("/onboarding"), 7000);
-    return () => clearTimeout(t);
+    const t1 = setTimeout(() => setExiting(true), 6400);
+    const t2 = setTimeout(() => navigate("/onboarding"), 7000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [navigate]);
 
   return (
@@ -38,12 +40,12 @@ export default function Index() {
 
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          animate={exiting ? { scale: 1.08, opacity: 0 } : { scale: 1, opacity: 1 }}
+          transition={{ duration: exiting ? 0.6 : 0.8, ease: "easeOut" }}
           className="flex flex-col items-center"
         >
           <motion.div
-            className="relative mb-6 grid place-items-center rounded-3xl bg-white/5 p-8 backdrop-blur-md"
+            className="relative mb-6 grid place-items-center rounded-3xl bg-white/5 p-10 backdrop-blur-md"
             initial={{ y: 6 }}
             animate={{ y: [6, -4, 6] }}
             transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
@@ -51,7 +53,7 @@ export default function Index() {
             <img
               src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2F07ba890e3aab4ca6849316c4a5f61771?alt=media&token=4e518cea-12ba-4b50-9caa-0bb566b9a85e&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
               alt="Daemon blink logo"
-              className="h-40 w-40 object-contain md:h-48 md:w-48"
+              className="h-56 w-56 object-contain md:h-64 md:w-64"
             />
             {/* subtle shine sweep */}
             <motion.div
