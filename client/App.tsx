@@ -34,8 +34,8 @@ const App = () => (
           <Route path="/login" element={<LoginSolana />} />
           <Route path="/home" element={<Home />} />
           <Route path="/chat" element={<ChatCopilot />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/faq" element={<FAQ />} />
+          <Route path="/settings" element={<Layout><Settings /></Layout>} />
+          <Route path="/faq" element={<Layout><FAQ /></Layout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
