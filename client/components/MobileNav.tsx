@@ -51,7 +51,10 @@ export default function MobileNav() {
             </div>
             <div className="h-px w-full bg-border" />
             <nav className="flex flex-1 flex-col gap-2 px-6 py-6 text-sm">
-              <NavItem to="/home" icon={<History className="size-5" />}>
+              <NavItem to="/home" icon={<Home className="size-5" />}>
+                Home
+              </NavItem>
+              <NavItem to="/history" icon={<History className="size-5" />}>
                 History
               </NavItem>
               <NavItem to="/settings" icon={<Settings className="size-5" />}>
