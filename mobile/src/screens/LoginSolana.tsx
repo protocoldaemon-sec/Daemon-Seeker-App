@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
+import { signNonceWithSMWA } from '../solana/smwa';
 
 const API = 'https://daemonprotocol-be-production.up.railway.app';
 
