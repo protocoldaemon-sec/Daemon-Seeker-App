@@ -70,7 +70,29 @@ export const postAnalyze: RequestHandler = async (req, res) => {
     res.status(r.status);
     res.setHeader(
       "Content-Type",
-      r.headers.get("content-type") || "text/plain; charset=utf-8",
+      r.headers.get("content-type") || "text/event-stream; charset=utf-8",
+    );
+    if (!r.body) return res.end();
+    for await (const chunk of r.body as any) {
+      res.write(chunk);
+    }
+    res.end();
+  } catch (e) {
+    res.status(500).end("stream_error");
+  }
+};
+
+export const getAnalyze: RequestHandler = async (req, res) => {
+  try {
+    const address = encodeURIComponent(String(req.params.address || ""));
+    const r = await fetch(`${AGENT_BASE}/analyze/${address}`, {
+      method: "GET",
+      headers: { accept: "text/event-stream" },
+    });
+    res.status(r.status);
+    res.setHeader(
+      "Content-Type",
+      r.headers.get("content-type") || "text/event-stream; charset=utf-8",
     );
     if (!r.body) return res.end();
     for await (const chunk of r.body as any) {
