@@ -16,6 +16,7 @@ import Home from "./pages/Home";
 import ChatCopilot from "./pages/ChatCopilot";
 import Settings from "./pages/Settings";
 import FAQ from "./pages/FAQ";
+import Layout from "@/components/Layout";
 
 const queryClient = new QueryClient();
 
