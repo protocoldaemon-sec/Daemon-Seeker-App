@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel, { type EmblaOptionsType } from "embla-carousel-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Onboarding() {
   const options: EmblaOptionsType = {
@@ -13,6 +14,13 @@ export default function Onboarding() {
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const [index, setIndex] = useState(0);
   const slideCount = 4;
+  const [leaving, setLeaving] = useState(false);
+  const navigate = useNavigate();
+  const loginWithTransition = () => {
+    if (leaving) return;
+    setLeaving(true);
+    setTimeout(() => navigate("/login"), 450);
+  };
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -29,7 +37,12 @@ export default function Onboarding() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-indigo-50">
-      <div className="mx-auto flex min-h-screen max-w-screen-sm flex-col px-6 py-10">
+      <motion.div
+        initial={{ opacity: 1, y: 0, scale: 1 }}
+        animate={{ opacity: leaving ? 0 : 1, y: leaving ? -24 : 0, scale: leaving ? 0.98 : 1 }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        className="mx-auto flex min-h-screen max-w-screen-sm flex-col px-6 py-10"
+      >
         <div className="mb-8 flex items-center justify-center">
           <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500" />
         </div>
@@ -84,8 +97,8 @@ export default function Onboarding() {
                   monitoring.
                 </p>
                 <div className="mt-8 flex flex-col items-center gap-3">
-                  <Button asChild className="px-6">
-                    <Link to="/login">Login with Solana</Link>
+                  <Button onClick={loginWithTransition} className="px-6">
+                    Login with Solana
                   </Button>
                 </div>
               </div>
@@ -132,7 +145,7 @@ export default function Onboarding() {
             </Button>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
