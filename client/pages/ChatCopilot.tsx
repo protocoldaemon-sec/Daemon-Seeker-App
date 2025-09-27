@@ -3,6 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import MobileNav from "@/components/MobileNav";
 import { useEffect } from "react";
+import { CheckCircle2, MessageSquare } from "lucide-react";
 
 interface Msg { id: string; role: "user" | "assistant"; content: string }
 
@@ -26,6 +27,8 @@ export default function ChatCopilot() {
       } catch {}
     })();
   }, []);
+
+  const insert = (t: string) => setInput(t);
 
   const send = async () => {
     if (!input.trim() || loading) return;
@@ -56,26 +59,26 @@ export default function ChatCopilot() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0f16] via-[#0b1220] to-[#04070c]">
       <div className="md:grid md:grid-cols-[16rem_1fr]">
         <div className="hidden md:block">
           <Sidebar />
         </div>
         <main className="flex min-h-screen flex-col">
-          <header className="sticky top-0 z-10 border-b bg-background/70 backdrop-blur">
-            <div className="flex items-center justify-between px-4 py-3 md:hidden">
-              <MobileNav />
-              <div className="pointer-events-none absolute left-1/2 -translate-x-1/2">
-                <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-indigo-500 to-fuchsia-500" />
-              </div>
-              <div className="w-10" />
+          {/* Top bar */}
+          <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-background/50 px-4 py-3 backdrop-blur md:px-6">
+            <div className="flex items-center gap-2 text-sm font-medium">
+              <div className="grid h-6 w-6 place-items-center rounded-md bg-blue-500/20 text-blue-300"><MessageSquare className="h-4 w-4" /></div>
+              Daemon Copilot
             </div>
-            <div className="hidden px-6 py-4 md:block">
-              <h1 className="text-lg font-semibold">AI Copilot</h1>
-              <p className="text-xs text-muted-foreground">Chat privately with your assistant</p>
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span className="hidden sm:inline">Status</span>
+              <CheckCircle2 className="h-4 w-4 text-emerald-400" />
             </div>
-          </header>
-          <div className="flex items-center gap-2 border-b bg-muted/20 px-6 py-3 text-xs">
+          </div>
+
+          {/* Prompt selector */}
+          <div className="flex items-center gap-2 border-b bg-muted/10 px-4 py-2 text-xs md:px-6">
             <select
               value={selectedPrompt || ""}
               onChange={(e) => setSelectedPrompt(e.target.value || undefined)}
@@ -91,27 +94,45 @@ export default function ChatCopilot() {
             {loading && <span className="text-muted-foreground">Sending…</span>}
           </div>
 
-          <div className="flex-1 space-y-4 overflow-y-auto px-6 py-6">
+          {/* Chat area */}
+          <div className="flex-1 space-y-4 overflow-y-auto px-4 py-4 md:px-6 md:py-6">
+            {/* Welcome card */}
+            {messages.length <= 1 && (
+              <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/90 shadow-xl">
+                <div className="mb-1 text-[13px] font-semibold text-white/95">Welcome to Daemon Copilot</div>
+                <p className="mb-2 text-[12px] text-white/70">How can I assist you with your investigation today? You can ask me things like:</p>
+                <ul className="list-disc space-y-1 pl-5 text-[12px]">
+                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Audit this smart contract: 0x...")}>Audit this smart contract: 0x…</button></li>
+                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Give me a summary of this transaction: txhash…")}>Give me a summary of this transaction: txhash…</button></li>
+                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Trace the funds from this address: address…")}>Trace the funds from this address: address…</button></li>
+                  <li><button className="underline-offset-4 hover:underline" onClick={() => insert("Analyze security risks for: wallet_address")}>Analyze security risks for: wallet_address</button></li>
+                </ul>
+                <p className="mt-2 text-[12px] text-white/60">I can perform real-time blockchain analysis and provide detailed security reports!</p>
+              </div>
+            )}
+
             {messages.map((m) => (
               <div key={m.id} className={m.role === "user" ? "text-right" : "text-left"}>
                 <div className={
                   m.role === "user"
-                    ? "inline-block max-w-[80%] rounded-2xl bg-primary px-4 py-2 text-primary-foreground"
-                    : "inline-block max-w-[80%] rounded-2xl bg-muted px-4 py-2"
+                    ? "inline-block max-w-[80%] rounded-2xl bg-primary/90 px-4 py-2 text-primary-foreground"
+                    : "inline-block max-w-[80%] rounded-2xl bg-white/5 px-4 py-2 text-white/90"
                 }>
                   {m.content}
                 </div>
               </div>
             ))}
           </div>
-          <div className="border-t p-4">
+
+          {/* Input */}
+          <div className="border-t bg-background/60 p-3 backdrop-blur">
             <div className="mx-auto flex max-w-3xl items-center gap-2">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && send()}
-                placeholder="Ask something..."
-                className="flex-1 rounded-full border bg-background px-4 py-2 outline-none focus:ring-2 focus:ring-ring"
+                placeholder="Ask Daemon Copilot anything or paste an address to analyze…"
+                className="flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
               />
               <Button onClick={send} disabled={loading}>Send</Button>
             </div>
