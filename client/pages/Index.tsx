@@ -21,8 +21,19 @@ export default function Index() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="absolute left-1/2 top-1/2 -z-10 h-[60vmin] w-[60vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.35),transparent_60%)]" />
-          <div className="absolute left-1/2 top-1/2 -z-10 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.25),transparent_70%)]" />
+          {/* smoother, larger glows with blur and gentle pulse */}
+          <motion.div
+            className="absolute left-1/2 top-1/2 -z-10 h-[100vmin] w-[100vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+            style={{ background: "radial-gradient(closest-side, rgba(99,102,241,0.5) 0%, rgba(99,102,241,0.15) 45%, transparent 70%)" }}
+            animate={{ scale: [1, 1.06, 1], opacity: [0.75, 0.9, 0.75] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute left-1/2 top-1/2 -z-10 h-[130vmin] w-[130vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+            style={{ background: "radial-gradient(closest-side, rgba(236,72,153,0.35) 0%, rgba(236,72,153,0.12) 50%, transparent 75%)" }}
+            animate={{ scale: [1.02, 1.08, 1.02], opacity: [0.5, 0.7, 0.5] }}
+            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          />
         </motion.div>
 
         <motion.div
