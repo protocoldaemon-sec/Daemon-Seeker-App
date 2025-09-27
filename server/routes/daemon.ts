@@ -12,7 +12,8 @@ export const proxyDaemon: RequestHandler = async (req, res) => {
     };
     if (req.method !== "GET" && req.method !== "HEAD") {
       init.body = JSON.stringify(req.body ?? {});
-      (init.headers as any)["content-type"] = (req.headers["content-type"] as string) || "application/json";
+      (init.headers as any)["content-type"] =
+        (req.headers["content-type"] as string) || "application/json";
     }
     const r = await fetch(url, init);
     res.status(r.status);

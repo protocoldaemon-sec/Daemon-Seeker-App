@@ -6,7 +6,10 @@
       "distribution": "internal"
     },
     "production": {
-      "android": { "gradleCommand": ":app:assembleRelease", "buildType": "apk" },
+      "android": {
+        "gradleCommand": ":app:assembleRelease",
+        "buildType": "apk"
+      },
       "env": {}
     }
   },
