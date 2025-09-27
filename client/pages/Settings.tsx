@@ -43,7 +43,9 @@ export default function Settings() {
 
         {/* Notifications */}
         <div className="mt-4 overflow-hidden rounded-2xl border bg-card">
-          <div className="border-b px-4 py-3 text-sm font-medium">Notifications</div>
+          <div className="border-b px-4 py-3 text-sm font-medium">
+            Notifications
+          </div>
           <div className="divide-y">
             <div className="flex items-center justify-between px-4 py-3">
               <div className="text-sm">Email notifications</div>
@@ -68,7 +70,9 @@ export default function Settings() {
               variant="destructive"
               className="h-11 w-full rounded-xl"
               onClick={() => {
-                try { window.solana?.disconnect?.(); } catch {}
+                try {
+                  window.solana?.disconnect?.();
+                } catch {}
                 localStorage.removeItem("daemon_token");
                 localStorage.removeItem("wallet_address");
                 location.href = "/login";
