@@ -19,5 +19,10 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Agent API proxy
+  app.get("/api/agent/system-prompts", require("./routes/agent").getSystemPrompts);
+  app.post("/api/agent/chat", require("./routes/agent").postChat);
+  app.post("/api/agent/chat-stream", require("./routes/agent").postChatStream);
+
   return app;
 }
