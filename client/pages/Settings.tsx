@@ -3,7 +3,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import Layout from "@/components/Layout";
 
 export default function Settings() {
   const [theme, setTheme] = useState<"system" | "light" | "dark">("system");
@@ -12,7 +11,6 @@ export default function Settings() {
   const [product, setProduct] = useState(true);
 
   return (
-    <Layout>
       <div className="min-h-screen bg-gradient-to-b from-indigo-900/40 to-indigo-900/10 p-6 md:p-10">
         <div className="mx-auto max-w-3xl rounded-2xl border border-white/10 bg-[rgba(8,15,26,0.65)] p-6 shadow-2xl backdrop-blur md:p-8">
           <h1 className="text-3xl font-semibold text-white">Settings</h1>
@@ -79,6 +77,5 @@ export default function Settings() {
           </section>
         </div>
       </div>
-    </Layout>
   );
 }
