@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <Sidebar />
         </div>
         <main className="min-h-screen">
-          <header className="sticky top-0 z-50 flex items-center justify-between bg-[#0b0e11] px-4 py-4 text-white md:hidden">
+          <header className="sticky top-0 z-50 flex items-center justify-between border-b bg-background px-4 py-4 text-foreground md:hidden">
             <MobileNav />
             <div className="pointer-events-none absolute left-1/2 -translate-x-1/2 text-base font-semibold">daemon</div>
             <button aria-label="Premium" className="inline-flex items-center justify-center rounded-2xl bg-[#2b3138] p-4 text-white shadow-lg">
