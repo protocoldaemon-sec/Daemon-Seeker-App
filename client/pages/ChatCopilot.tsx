@@ -30,6 +30,31 @@ export default function ChatCopilot() {
 
   const insert = (t: string) => setInput(t);
 
+  const extractAddress = (text: string): string | null => {
+    const jsonAddr = /"address"\s*:\s*"([^"]+)"/i.exec(text);
+    if (jsonAddr && jsonAddr[1]) return jsonAddr[1];
+    const eth = /(0x[a-fA-F0-9]{40})\b/.exec(text);
+    if (eth && eth[1]) return eth[1];
+    const base58 = /\b[1-9A-HJ-NP-Za-km-z]{32,44}\b/.exec(text);
+    if (base58 && base58[0]) return base58[0];
+    return null;
+  };
+
+  const streamIntoMessage = async (res: Response, msgId: string): Promise<string> => {
+    const reader = res.body?.getReader();
+    if (!reader) return "";
+    const decoder = new TextDecoder();
+    let full = "";
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const chunk = decoder.decode(value, { stream: true });
+      full += chunk;
+      setMessages((prev) => prev.map((m) => (m.id === msgId ? { ...m, content: (m.content || "") + chunk } : m)));
+    }
+    return full;
+  };
+
   const send = async () => {
     if (!input.trim() || loading) return;
     const user: Msg = { id: crypto.randomUUID(), role: "user", content: input };
@@ -37,19 +62,24 @@ export default function ChatCopilot() {
     setInput("");
     setLoading(true);
     try {
-      const r = await fetch("/api/agent/chat", {
+      const assistantId = crypto.randomUUID();
+      setMessages((m) => [...m, { id: assistantId, role: "assistant", content: "" }]);
+      const chatRes = await fetch("/api/agent/chat-stream", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: user.content, systemPromptId: selectedPrompt }),
       });
-      const ct = r.headers.get("content-type") || "";
-      if (ct.includes("application/json")) {
-        const data = await r.json();
-        const text = data?.reply || data?.message || JSON.stringify(data);
-        setMessages((m) => [...m, { id: crypto.randomUUID(), role: "assistant", content: String(text) }]);
-      } else {
-        const text = await r.text();
-        setMessages((m) => [...m, { id: crypto.randomUUID(), role: "assistant", content: text }]);
+      const chatText = await streamIntoMessage(chatRes, assistantId);
+      const addr = extractAddress(chatText);
+      if (addr) {
+        const analyzeId = crypto.randomUUID();
+        setMessages((m) => [...m, { id: analyzeId, role: "assistant", content: "" }]);
+        const analyzeRes = await fetch("/api/agent/analyze", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ address: addr }),
+        });
+        await streamIntoMessage(analyzeRes, analyzeId);
       }
     } catch (e) {
       setMessages((m) => [...m, { id: crypto.randomUUID(), role: "assistant", content: "Sorry, something went wrong." }]);
