@@ -23,18 +23,31 @@ export default function Index() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
-          {/* smoother, larger glows with blur and gentle pulse */}
+          {/* smoother, larger blue glows with blur and gentle pulse; zoom out on exit */}
           <motion.div
-            className="absolute left-1/2 top-1/2 -z-10 h-[100vmin] w-[100vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(closest-side, rgba(99,102,241,0.5) 0%, rgba(99,102,241,0.15) 45%, transparent 70%)" }}
-            animate={{ scale: [1, 1.06, 1], opacity: [0.75, 0.9, 0.75] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute left-1/2 top-1/2 -z-10 h-[110vmin] w-[110vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+            style={{ background: "radial-gradient(closest-side, rgba(59,130,246,0.5) 0%, rgba(59,130,246,0.15) 45%, transparent 70%)" }}
+            animate={exiting ? { scale: 1.2, opacity: 0 } : { scale: [1, 1.06, 1], opacity: [0.75, 0.9, 0.75] }}
+            transition={{ duration: exiting ? 0.8 : 7, repeat: exiting ? 0 : Infinity, ease: "easeInOut" }}
           />
           <motion.div
-            className="absolute left-1/2 top-1/2 -z-10 h-[130vmin] w-[130vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(closest-side, rgba(236,72,153,0.35) 0%, rgba(236,72,153,0.12) 50%, transparent 75%)" }}
-            animate={{ scale: [1.02, 1.08, 1.02], opacity: [0.5, 0.7, 0.5] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute left-1/2 top-1/2 -z-10 h-[140vmin] w-[140vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl"
+            style={{ background: "radial-gradient(closest-side, rgba(37,99,235,0.35) 0%, rgba(37,99,235,0.12) 50%, transparent 75%)" }}
+            animate={exiting ? { scale: 1.25, opacity: 0 } : { scale: [1.02, 1.08, 1.02], opacity: [0.5, 0.7, 0.5] }}
+            transition={{ duration: exiting ? 0.8 : 7, repeat: exiting ? 0 : Infinity, ease: "easeInOut" }}
+          />
+          {/* corner soft blue accents */}
+          <motion.div
+            className="absolute left-[15%] top-[20%] -z-10 h-[40vmin] w-[40vmin] -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
+            style={{ background: "radial-gradient(closest-side, rgba(59,130,246,0.25), transparent 70%)" }}
+            animate={exiting ? { opacity: 0 } : { opacity: [0.2, 0.35, 0.2] }}
+            transition={{ duration: exiting ? 0.8 : 7, repeat: exiting ? 0 : Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute right-[12%] bottom-[15%] -z-10 h-[42vmin] w-[42vmin] translate-x-1/2 translate-y-1/2 rounded-full blur-2xl"
+            style={{ background: "radial-gradient(closest-side, rgba(29,78,216,0.22), transparent 70%)" }}
+            animate={exiting ? { opacity: 0 } : { opacity: [0.18, 0.3, 0.18] }}
+            transition={{ duration: exiting ? 0.8 : 7, repeat: exiting ? 0 : Infinity, ease: "easeInOut" }}
           />
         </motion.div>
 
