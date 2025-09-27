@@ -50,11 +50,11 @@ export default function History() {
         <main className="flex min-h-screen flex-col p-4 md:p-6">
           <div className="rounded-2xl border bg-card p-4 shadow-xl">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-white">Transaction History</h2>
-              <div className="flex items-center gap-3 text-sm text-white/80">
+              <h2 className="text-lg font-semibold text-foreground">Transaction History</h2>
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
-                    <Button variant="secondary" className="rounded-lg bg-white/10 text-white hover:bg-white/15">
+                    <Button variant="secondary" className="rounded-lg">
                       <Filter className="mr-2 h-4 w-4" /> Filters
                     </Button>
                   </PopoverTrigger>
@@ -121,7 +121,7 @@ export default function History() {
                 <TableBody>
                   {filtered.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={5} className="p-8 text-center text-sm text-white/60">
+                      <TableCell colSpan={5} className="p-8 text-center text-sm text-muted-foreground">
                         No transactions found matching your filters.
                       </TableCell>
                     </TableRow>
@@ -132,7 +132,7 @@ export default function History() {
                         <TableCell>{t.amount}</TableCell>
                         <TableCell>{t.status}</TableCell>
                         <TableCell>{new Date(t.date).toLocaleDateString()}</TableCell>
-                        <TableCell className="font-mono text-xs text-white/80">{t.hash}</TableCell>
+                        <TableCell className="font-mono text-xs text-muted-foreground">{t.hash}</TableCell>
                       </TableRow>
                     ))
                   )}
