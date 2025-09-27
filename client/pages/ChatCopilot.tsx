@@ -125,7 +125,7 @@ export default function ChatCopilot() {
         setMessages((m) => [...m, { id: analyzeId, role: "assistant", content: "" }]);
         const analyzeRes = await fetch("/api/agent/analyze", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
           body: JSON.stringify({ address: addr }),
         });
         await streamIntoMessage(analyzeRes, analyzeId);
