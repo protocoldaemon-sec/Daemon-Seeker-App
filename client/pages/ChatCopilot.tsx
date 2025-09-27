@@ -3,7 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import GlowParticles from "@/components/GlowParticles";
-import { CheckCircle2, MessageSquare, ArrowLeft, Send } from "lucide-react";
+import { CheckCircle2, ArrowLeft, Send } from "lucide-react";
 
 interface Msg {
   id: string;
@@ -185,9 +185,6 @@ export default function ChatCopilot() {
               >
                 <ArrowLeft className="h-4 w-4" />
               </Link>
-              <div className="grid h-6 w-6 place-items-center rounded-md bg-blue-500/20 text-blue-300">
-                <MessageSquare className="h-4 w-4" />
-              </div>
               Daemon Copilot
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -262,21 +259,14 @@ export default function ChatCopilot() {
                   m.role === "user" ? "flex justify-end" : "flex justify-start"
                 }
               >
-                <div className="relative">
-                  <div
-                    className={
-                      m.role === "user"
-                        ? "inline-block max-w-[80%] rounded-2xl bg-primary/90 px-4 py-2 text-primary-foreground break-words whitespace-pre-wrap"
-                        : "inline-block max-w-[80%] rounded-2xl bg-white/5 px-4 py-2 text-white/90 break-words whitespace-pre-wrap"
-                    }
-                  >
-                    {m.content}
-                  </div>
-                  {m.role === "user" ? (
-                    <span className="absolute -right-1.5 bottom-2 h-3 w-3 rotate-45 rounded-[2px] bg-primary/90" />
-                  ) : (
-                    <span className="absolute -left-1.5 bottom-2 h-3 w-3 rotate-45 rounded-[2px] bg-white/5" />
-                  )}
+                <div
+                  className={
+                    m.role === "user"
+                      ? "inline-block max-w-[80%] rounded-2xl bg-primary/90 px-4 py-2 text-primary-foreground break-words whitespace-pre-wrap"
+                      : "inline-block max-w-[80%] rounded-2xl bg-white/5 px-4 py-2 text-white/90 break-words whitespace-pre-wrap"
+                  }
+                >
+                  {m.content}
                 </div>
               </div>
             ))}
