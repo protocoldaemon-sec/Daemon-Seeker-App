@@ -99,17 +99,22 @@ export default function Index() {
               alt="Daemon blink logo"
               className="h-72 w-72 object-contain md:h-80 md:w-80"
             />
-            {/* subtle shine sweep across logo (masked to avoid box edges) */}
+            {/* full-screen soft shine sweep, feathered and rotated */}
             <motion.div
               aria-hidden
-              className="pointer-events-none absolute inset-0"
-              initial={{ x: "-120%", opacity: 0 }}
-              animate={{ x: ["-120%", "120%"], opacity: [0, 0.35, 0] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+              className="pointer-events-none absolute left-1/2 top-1/2 -z-10"
+              initial={{ x: "-60vw", opacity: 0 }}
+              animate={{ x: ["-60vw", "60vw"], opacity: [0, 0.4, 0] }}
+              transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
               style={{
-                background: "linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.35) 50%, transparent 65%)",
-                WebkitMaskImage: "radial-gradient(ellipse at center, black 55%, transparent 75%)",
-                maskImage: "radial-gradient(ellipse at center, black 55%, transparent 75%)",
+                width: "160vmax",
+                height: "160vmax",
+                transform: "translate(-50%, -50%) rotate(20deg)",
+                background: "linear-gradient(90deg, rgba(255,255,255,0) 34%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 66%)",
+                WebkitMaskImage: "radial-gradient(circle at center, black 42%, transparent 70%)",
+                maskImage: "radial-gradient(circle at center, black 42%, transparent 70%)",
+                filter: "blur(10px)",
+                mixBlendMode: "screen",
               }}
             />
           </motion.div>
