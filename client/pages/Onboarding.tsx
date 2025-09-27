@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel, { type EmblaOptionsType } from "embla-carousel-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function Onboarding() {
   const options: EmblaOptionsType = {
@@ -44,11 +45,6 @@ export default function Onboarding() {
                   Automated vulnerability checks to flag malicious or risky
                   contracts before exposure.
                 </p>
-                <div className="mt-8">
-                  <Button onClick={() => scrollTo(1)} className="px-6">
-                    Next
-                  </Button>
-                </div>
               </div>
             </section>
 
@@ -62,18 +58,6 @@ export default function Onboarding() {
                   Go beyond the blockchain with integrated open-source
                   intelligence for off-chain context.
                 </p>
-                <div className="mt-8 flex flex-col items-center gap-3">
-                  <Button onClick={() => scrollTo(2)} className="px-6">
-                    Next
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => scrollTo(0)}
-                    className="px-6"
-                  >
-                    Back
-                  </Button>
-                </div>
               </div>
             </section>
             {/* Slide 3 */}
@@ -86,18 +70,6 @@ export default function Onboarding() {
                   Generate investigation-grade case reports with fund flow
                   mapping, entity attribution, and sanctions intelligence.
                 </p>
-                <div className="mt-8 flex flex-col items-center gap-3">
-                  <Button onClick={() => scrollTo(3)} className="px-6">
-                    Next
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => scrollTo(1)}
-                    className="px-6"
-                  >
-                    Back
-                  </Button>
-                </div>
               </div>
             </section>
 
@@ -115,33 +87,50 @@ export default function Onboarding() {
                   <Button asChild className="px-6">
                     <Link to="/login">Login with Solana</Link>
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => scrollTo(2)}
-                    className="px-6"
-                  >
-                    Back
-                  </Button>
                 </div>
               </div>
             </section>
           </div>
         </div>
 
-        {/* Dots */}
-        <div className="mt-auto flex items-center justify-center gap-2 py-8">
-          {Array.from({ length: slideCount }).map((_, i) => (
-            <button
-              key={i}
-              aria-label={`Go to slide ${i + 1}`}
-              onClick={() => scrollTo(i)}
-              className={
-                i === index
-                  ? "h-2.5 w-6 rounded-full bg-indigo-600 transition-all"
-                  : "h-2.5 w-2.5 rounded-full bg-indigo-200 transition-all"
-              }
-            />
-          ))}
+        {/* Bottom Navigation */}
+        <div className="mt-auto w-full pb-6">
+          {/* Dots above arrows */}
+          <div className="mb-4 flex items-center justify-center gap-2">
+            {Array.from({ length: slideCount }).map((_, i) => (
+              <button
+                key={i}
+                aria-label={`Go to slide ${i + 1}`}
+                onClick={() => scrollTo(i)}
+                className={
+                  i === index
+                    ? "h-2.5 w-6 rounded-full bg-indigo-600 transition-all"
+                    : "h-2.5 w-2.5 rounded-full bg-indigo-200 transition-all"
+                }
+              />
+            ))}
+          </div>
+          {/* Arrow-only controls at the very bottom */}
+          <div className="flex items-center justify-between">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Back"
+              onClick={() => index > 0 && scrollTo(index - 1)}
+              disabled={index === 0}
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Next"
+              onClick={() => index < slideCount - 1 && scrollTo(index + 1)}
+              disabled={index === slideCount - 1}
+            >
+              <ArrowRight className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
