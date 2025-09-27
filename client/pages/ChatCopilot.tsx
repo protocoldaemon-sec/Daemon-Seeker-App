@@ -2,7 +2,8 @@ import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { CheckCircle2, MessageSquare, ArrowLeft } from "lucide-react";
+import GlowParticles from "@/components/GlowParticles";
+import { CheckCircle2, MessageSquare, ArrowLeft, Send } from "lucide-react";
 
 interface Msg { id: string; role: "user" | "assistant"; content: string }
 
@@ -123,7 +124,8 @@ export default function ChatCopilot() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0f16] via-[#0b1220] to-[#04070c]">
+    <div className="relative min-h-screen bg-gradient-to-br from-[#0a0f16] via-[#0b1220] to-[#04070c]">
+      <GlowParticles count={22} color="56,189,248" />
       <div className="md:grid md:grid-cols-[16rem_1fr]">
         <div className="hidden md:block">
           <Sidebar />
@@ -162,13 +164,20 @@ export default function ChatCopilot() {
             )}
 
             {messages.map((m) => (
-              <div key={m.id} className={m.role === "user" ? "text-right" : "text-left"}>
-                <div className={
-                  m.role === "user"
-                    ? "inline-block max-w-[80%] rounded-2xl bg-primary/90 px-4 py-2 text-primary-foreground break-words whitespace-pre-wrap"
-                    : "inline-block max-w-[80%] rounded-2xl bg-white/5 px-4 py-2 text-white/90 break-words whitespace-pre-wrap"
-                }>
-                  {m.content}
+              <div key={m.id} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
+                <div className="relative">
+                  <div className={
+                    m.role === "user"
+                      ? "inline-block max-w-[80%] rounded-2xl bg-primary/90 px-4 py-2 text-primary-foreground break-words whitespace-pre-wrap"
+                      : "inline-block max-w-[80%] rounded-2xl bg-white/5 px-4 py-2 text-white/90 break-words whitespace-pre-wrap"
+                  }>
+                    {m.content}
+                  </div>
+                  {m.role === "user" ? (
+                    <span className="absolute -right-1.5 bottom-2 h-3 w-3 rotate-45 rounded-[2px] bg-primary/90" />
+                  ) : (
+                    <span className="absolute -left-1.5 bottom-2 h-3 w-3 rotate-45 rounded-[2px] bg-white/5" />
+                  )}
                 </div>
               </div>
             ))}
@@ -184,7 +193,9 @@ export default function ChatCopilot() {
                 placeholder="Ask Daemon Copilot anything or paste an address to analyze…"
                 className="flex-1 rounded-full border bg-background px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
               />
-              <Button onClick={send} disabled={loading}>Send</Button>
+              <Button onClick={send} disabled={loading} size="icon" aria-label="Send message" title="Send">
+                <Send className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         </main>
