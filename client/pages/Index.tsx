@@ -102,18 +102,18 @@ export default function Index() {
             {/* full-screen soft shine sweep, feathered and rotated */}
             <motion.div
               aria-hidden
-              className="pointer-events-none absolute left-1/2 top-1/2 -z-10"
+              className="pointer-events-none absolute left-1/2 top-1/2 z-0"
               initial={{ x: "-60vw", opacity: 0 }}
-              animate={{ x: ["-60vw", "60vw"], opacity: [0, 0.4, 0] }}
+              animate={{ x: ["-60vw", "60vw"], opacity: [0, 0.45, 0] }}
               transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
               style={{
                 width: "160vmax",
                 height: "160vmax",
                 transform: "translate(-50%, -50%) rotate(20deg)",
-                background: "linear-gradient(90deg, rgba(255,255,255,0) 34%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0) 66%)",
-                WebkitMaskImage: "radial-gradient(circle at center, black 42%, transparent 70%)",
-                maskImage: "radial-gradient(circle at center, black 42%, transparent 70%)",
-                filter: "blur(10px)",
+                background: "linear-gradient(90deg, rgba(255,255,255,0) 34%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 66%)",
+                WebkitMaskImage: "radial-gradient(circle at center, rgba(255,255,255,1) 46%, rgba(255,255,255,0) 72%)",
+                maskImage: "radial-gradient(circle at center, rgba(255,255,255,1) 46%, rgba(255,255,255,0) 72%)",
+                filter: "blur(12px)",
                 mixBlendMode: "screen",
               }}
             />
