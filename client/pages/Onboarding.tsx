@@ -7,7 +7,7 @@ export default function Onboarding() {
   const options: EmblaOptionsType = { loop: false, align: "start", dragFree: false };
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const [index, setIndex] = useState(0);
-  const slideCount = 2;
+  const slideCount = 4;
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -33,9 +33,9 @@ export default function Onboarding() {
             {/* Slide 1 */}
             <section className="min-w-0 shrink-0 grow-0 basis-full py-4">
               <div className="flex flex-col items-center text-center">
-                <h1 className="mb-3 text-3xl font-semibold tracking-tight">Welcome to Daemon</h1>
+                <h1 className="mb-3 text-3xl font-semibold tracking-tight">Smart Contract Pre-Audit</h1>
                 <p className="max-w-xs text-muted-foreground">
-                  Modern onboarding experience with Poppins + Tailwind. Swipe to continue.
+                  Automated vulnerability checks to flag malicious or risky contracts before exposure.
                 </p>
                 <div className="mt-8">
                   <Button onClick={() => scrollTo(1)} className="px-6">Next</Button>
@@ -46,15 +46,42 @@ export default function Onboarding() {
             {/* Slide 2 */}
             <section className="min-w-0 shrink-0 grow-0 basis-full py-4">
               <div className="flex flex-col items-center text-center">
-                <h2 className="mb-3 text-3xl font-semibold tracking-tight">Everything you need</h2>
+                <h2 className="mb-3 text-3xl font-semibold tracking-tight">OSINT Enhanced</h2>
                 <p className="max-w-xs text-muted-foreground">
-                  Splash animation, onboarding with dots, Solana login, home with sidebar, and AI Copilot.
+                  Go beyond the blockchain with integrated open-source intelligence for off-chain context.
+                </p>
+                <div className="mt-8 flex flex-col items-center gap-3">
+                  <Button onClick={() => scrollTo(2)} className="px-6">Next</Button>
+                  <Button variant="outline" onClick={() => scrollTo(0)} className="px-6">Back</Button>
+                </div>
+              </div>
+            </section>
+            {/* Slide 3 */}
+            <section className="min-w-0 shrink-0 grow-0 basis-full py-4">
+              <div className="flex flex-col items-center text-center">
+                <h2 className="mb-3 text-3xl font-semibold tracking-tight">Forensic Reporting</h2>
+                <p className="max-w-xs text-muted-foreground">
+                  Generate investigation-grade case reports with fund flow mapping, entity attribution, and sanctions intelligence.
+                </p>
+                <div className="mt-8 flex flex-col items-center gap-3">
+                  <Button onClick={() => scrollTo(3)} className="px-6">Next</Button>
+                  <Button variant="outline" onClick={() => scrollTo(1)} className="px-6">Back</Button>
+                </div>
+              </div>
+            </section>
+
+            {/* Slide 4 */}
+            <section className="min-w-0 shrink-0 grow-0 basis-full py-4">
+              <div className="flex flex-col items-center text-center">
+                <h2 className="mb-3 text-3xl font-semibold tracking-tight">Risk Engine</h2>
+                <p className="max-w-xs text-muted-foreground">
+                  AI-powered detection from address screening and transaction monitoring.
                 </p>
                 <div className="mt-8 flex flex-col items-center gap-3">
                   <Button asChild className="px-6">
                     <Link to="/login">Login with Solana</Link>
                   </Button>
-                  <Button variant="outline" onClick={() => scrollTo(0)} className="px-6">Back</Button>
+                  <Button variant="outline" onClick={() => scrollTo(2)} className="px-6">Back</Button>
                 </div>
               </div>
             </section>
