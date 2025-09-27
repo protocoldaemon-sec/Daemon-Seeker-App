@@ -23,6 +23,7 @@ export function createServer() {
   app.get("/api/agent/system-prompts", require("./routes/agent").getSystemPrompts);
   app.post("/api/agent/chat", require("./routes/agent").postChat);
   app.post("/api/agent/chat-stream", require("./routes/agent").postChatStream);
+  app.post("/api/agent/analyze", require("./routes/agent").postAnalyze);
 
   return app;
 }
