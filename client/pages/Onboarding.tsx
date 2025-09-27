@@ -39,7 +39,11 @@ export default function Onboarding() {
     <div className="min-h-screen bg-gradient-to-b from-white to-indigo-50">
       <motion.div
         initial={{ opacity: 1, y: 0, scale: 1 }}
-        animate={{ opacity: leaving ? 0 : 1, y: leaving ? -24 : 0, scale: leaving ? 0.98 : 1 }}
+        animate={{
+          opacity: leaving ? 0 : 1,
+          y: leaving ? -24 : 0,
+          scale: leaving ? 0.98 : 1,
+        }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
         className="mx-auto flex min-h-screen max-w-screen-sm flex-col px-6 py-10"
       >
