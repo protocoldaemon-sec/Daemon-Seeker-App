@@ -96,14 +96,18 @@ export default function Index() {
               alt="Daemon blink logo"
               className="h-72 w-72 object-contain md:h-80 md:w-80"
             />
-            {/* subtle shine sweep across logo */}
+            {/* subtle shine sweep across logo (masked to avoid box edges) */}
             <motion.div
               aria-hidden
               className="pointer-events-none absolute inset-0"
               initial={{ x: "-120%", opacity: 0 }}
               animate={{ x: ["-120%", "120%"], opacity: [0, 0.35, 0] }}
               transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-              style={{ background: "linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.35) 50%, transparent 65%)" }}
+              style={{
+                background: "linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.35) 50%, transparent 65%)",
+                WebkitMaskImage: "radial-gradient(ellipse at center, black 55%, transparent 75%)",
+                maskImage: "radial-gradient(ellipse at center, black 55%, transparent 75%)",
+              }}
             />
           </motion.div>
         </motion.div>
