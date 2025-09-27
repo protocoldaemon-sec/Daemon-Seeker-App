@@ -49,6 +49,21 @@ export default function Index() {
             animate={exiting ? { opacity: 0 } : { opacity: [0.18, 0.3, 0.18] }}
             transition={{ duration: exiting ? 0.8 : 7, repeat: exiting ? 0 : Infinity, ease: "easeInOut" }}
           />
+          {/* rotating conic gradient mesh for elegant depth */}
+          <motion.div
+            className="absolute inset-0 -z-10 mix-blend-screen opacity-40"
+            style={{
+              background:
+                "conic-gradient(from 0deg at 50% 50%, rgba(59,130,246,0.22), rgba(99,102,241,0.18), rgba(59,130,246,0.22))",
+            }}
+            animate={exiting ? { rotate: 20, opacity: 0 } : { rotate: 0, opacity: 0.4 }}
+            transition={{ duration: exiting ? 0.8 : 12, repeat: exiting ? 0 : Infinity, ease: "linear" }}
+          />
+          {/* soft vignette to focus the logo */}
+          <div
+            className="absolute inset-0 -z-10 pointer-events-none"
+            style={{ background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.65) 100%)" }}
+          />
         </motion.div>
 
         <motion.div
