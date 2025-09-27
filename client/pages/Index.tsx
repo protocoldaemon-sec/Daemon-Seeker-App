@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -11,38 +12,50 @@ export default function Index() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen overflow-hidden bg-gradient-to-br from-indigo-600 via-fuchsia-500 to-rose-400">
+    <div className="min-h-screen overflow-hidden bg-black">
       <div className="relative grid min-h-screen place-items-center">
+        {/* soft radial glow */}
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="absolute left-1/2 top-1/2 -z-10 h-[60vmin] w-[60vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.35),transparent_60%)]" />
+          <div className="absolute left-1/2 top-1/2 -z-10 h-[80vmin] w-[80vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(236,72,153,0.25),transparent_70%)]" />
+        </motion.div>
+
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col items-center text-white"
+          className="flex flex-col items-center"
         >
-          <div className="mb-6 grid size-28 place-items-center rounded-3xl bg-white/10 backdrop-blur">
-            <motion.div
-              initial={{ rotate: 0 }}
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-              className="size-16 rounded-2xl bg-gradient-to-br from-white to-white/60 shadow-2xl"
+          <motion.div
+            className="relative mb-6 grid place-items-center rounded-3xl bg-white/5 p-8 backdrop-blur-md"
+            initial={{ y: 6 }}
+            animate={{ y: [6, -4, 6] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <img
+              src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2F07ba890e3aab4ca6849316c4a5f61771?alt=media&token=4e518cea-12ba-4b50-9caa-0bb566b9a85e&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
+              alt="Daemon blink logo"
+              className="h-28 w-28 object-contain"
             />
-          </div>
-          <motion.h1
-            initial={{ y: 10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-3xl font-semibold tracking-tight"
-          >
-            Daemon
-          </motion.h1>
-          <motion.p
-            initial={{ y: 10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.35 }}
-            className="text-sm text-white/80"
-          >
-            Poppins + Tailwind • Splash Animation
-          </motion.p>
+            {/* subtle shine sweep */}
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 rounded-3xl"
+              initial={{ x: "-120%", opacity: 0 }}
+              animate={{ x: ["-120%", "120%"], opacity: [0, 0.35, 0] }}
+              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+              style={{
+                background:
+                  "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%)",
+              }}
+            />
+          </motion.div>
         </motion.div>
       </div>
     </div>
