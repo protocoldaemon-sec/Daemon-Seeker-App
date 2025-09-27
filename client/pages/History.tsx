@@ -1,7 +1,19 @@
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Filter } from "lucide-react";
 import { useMemo, useState } from "react";
 
@@ -15,9 +27,30 @@ interface Txn {
 }
 
 const SAMPLE: Txn[] = [
-  { id: "1", type: "Deposit", amount: 1.23, status: "Completed", date: new Date(Date.now() - 2 * 86400000).toISOString(), hash: "0xabc...111" },
-  { id: "2", type: "Swap", amount: 0.42, status: "Pending", date: new Date(Date.now() - 10 * 86400000).toISOString(), hash: "0xdef...222" },
-  { id: "3", type: "Withdrawal", amount: 5.0, status: "Failed", date: new Date(Date.now() - 40 * 86400000).toISOString(), hash: "0xghi...333" },
+  {
+    id: "1",
+    type: "Deposit",
+    amount: 1.23,
+    status: "Completed",
+    date: new Date(Date.now() - 2 * 86400000).toISOString(),
+    hash: "0xabc...111",
+  },
+  {
+    id: "2",
+    type: "Swap",
+    amount: 0.42,
+    status: "Pending",
+    date: new Date(Date.now() - 10 * 86400000).toISOString(),
+    hash: "0xdef...222",
+  },
+  {
+    id: "3",
+    type: "Withdrawal",
+    amount: 5.0,
+    status: "Failed",
+    date: new Date(Date.now() - 40 * 86400000).toISOString(),
+    hash: "0xghi...333",
+  },
 ];
 
 export default function History() {
@@ -35,9 +68,11 @@ export default function History() {
       list = list.filter((t) => new Date(t.date).getTime() >= cutoff);
     }
     // type filter
-    if (type !== "all") list = list.filter((t) => t.type.toLowerCase() === type);
+    if (type !== "all")
+      list = list.filter((t) => t.type.toLowerCase() === type);
     // status filter
-    if (status !== "all") list = list.filter((t) => t.status.toLowerCase() === status);
+    if (status !== "all")
+      list = list.filter((t) => t.status.toLowerCase() === status);
     return list;
   }, [timeRange, type, status]);
 
@@ -50,7 +85,9 @@ export default function History() {
         <main className="flex min-h-screen flex-col p-4 md:p-6">
           <div className="rounded-2xl border bg-card p-4 shadow-xl">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-foreground">Transaction History</h2>
+              <h2 className="text-lg font-semibold text-foreground">
+                Transaction History
+              </h2>
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Popover open={open} onOpenChange={setOpen}>
                   <PopoverTrigger asChild>
@@ -61,7 +98,9 @@ export default function History() {
                   <PopoverContent className="w-80 rounded-xl border bg-popover text-popover-foreground">
                     <div className="space-y-3">
                       <div>
-                        <div className="mb-1 text-xs text-muted-foreground">Time Range</div>
+                        <div className="mb-1 text-xs text-muted-foreground">
+                          Time Range
+                        </div>
                         <select
                           value={timeRange}
                           onChange={(e) => setTimeRange(e.target.value)}
@@ -74,7 +113,9 @@ export default function History() {
                         </select>
                       </div>
                       <div>
-                        <div className="mb-1 text-xs text-muted-foreground">Type</div>
+                        <div className="mb-1 text-xs text-muted-foreground">
+                          Type
+                        </div>
                         <select
                           value={type}
                           onChange={(e) => setType(e.target.value)}
@@ -89,7 +130,9 @@ export default function History() {
                         </select>
                       </div>
                       <div>
-                        <div className="mb-1 text-xs text-muted-foreground">Status</div>
+                        <div className="mb-1 text-xs text-muted-foreground">
+                          Status
+                        </div>
                         <select
                           value={status}
                           onChange={(e) => setStatus(e.target.value)}
@@ -104,7 +147,9 @@ export default function History() {
                     </div>
                   </PopoverContent>
                 </Popover>
-                <span className="text-xs text-muted-foreground">Showing {filtered.length} of {SAMPLE.length} transactions</span>
+                <span className="text-xs text-muted-foreground">
+                  Showing {filtered.length} of {SAMPLE.length} transactions
+                </span>
               </div>
             </div>
             <div className="overflow-hidden rounded-xl border bg-card/60">
@@ -121,7 +166,10 @@ export default function History() {
                 <TableBody>
                   {filtered.length === 0 ? (
                     <TableRow>
-                      <TableCell colSpan={5} className="p-8 text-center text-sm text-muted-foreground">
+                      <TableCell
+                        colSpan={5}
+                        className="p-8 text-center text-sm text-muted-foreground"
+                      >
                         No transactions found matching your filters.
                       </TableCell>
                     </TableRow>
@@ -131,13 +179,19 @@ export default function History() {
                         <TableCell>{t.type}</TableCell>
                         <TableCell>{t.amount}</TableCell>
                         <TableCell>{t.status}</TableCell>
-                        <TableCell>{new Date(t.date).toLocaleDateString()}</TableCell>
-                        <TableCell className="font-mono text-xs text-muted-foreground">{t.hash}</TableCell>
+                        <TableCell>
+                          {new Date(t.date).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell className="font-mono text-xs text-muted-foreground">
+                          {t.hash}
+                        </TableCell>
                       </TableRow>
                     ))
                   )}
                 </TableBody>
-                <TableCaption className="sr-only">Your recent transactions</TableCaption>
+                <TableCaption className="sr-only">
+                  Your recent transactions
+                </TableCaption>
               </Table>
             </div>
           </div>
