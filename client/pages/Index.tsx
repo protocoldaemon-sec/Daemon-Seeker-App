@@ -70,6 +70,8 @@ export default function Index() {
             className="absolute inset-0 -z-10 pointer-events-none"
             style={{ background: "radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%)" }}
           />
+          {/* floating glow particles */}
+          <GlowParticles count={10} />
         </motion.div>
 
         <motion.div
