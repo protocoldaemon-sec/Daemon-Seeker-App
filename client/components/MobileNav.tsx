@@ -7,6 +7,7 @@ import {
   HelpCircle,
   LogOut,
   User,
+  Home,
 } from "lucide-react";
 import {
   Sheet,
