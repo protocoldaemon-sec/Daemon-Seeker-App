@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { MessageSquare, Home } from "lucide-react";
+import { MessageSquare, Home, History, Settings, HelpCircle } from "lucide-react";
 
 export default function Sidebar() {
   return (
@@ -10,8 +10,10 @@ export default function Sidebar() {
         <span className="text-lg font-semibold">Daemon</span>
       </div>
       <nav className="space-y-1">
-        <NavItem to="/home" icon={<Home className="size-4" />}>Home</NavItem>
+        <NavItem to="/home" icon={<History className="size-4" />}>History</NavItem>
         <NavItem to="/chat" icon={<MessageSquare className="size-4" />}>AI Copilot</NavItem>
+        <NavItem to="/settings" icon={<Settings className="size-4" />}>Settings</NavItem>
+        <NavItem to="/faq" icon={<HelpCircle className="size-4" />}>FAQ</NavItem>
       </nav>
       <div className="mt-auto text-xs text-muted-foreground">
         v0.1 • Poppins
