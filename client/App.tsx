@@ -14,6 +14,7 @@ import Onboarding1 from "./pages/Onboarding1";
 import Onboarding2 from "./pages/Onboarding2";
 import LoginSolana from "./pages/LoginSolana";
 import Home from "./pages/Home";
+import History from "./pages/History";
 import ChatCopilot from "./pages/ChatCopilot";
 import Settings from "./pages/Settings";
 import FAQ from "./pages/FAQ";
