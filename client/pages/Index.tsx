@@ -13,7 +13,7 @@ export default function Index() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen overflow-hidden bg-gradient-to-b from-black via-[#05070b] to-black">
+    <div className="min-h-screen overflow-hidden bg-[#05070b]">
       <div className="relative grid min-h-screen place-items-center">
         {/* soft radial glow */}
         <motion.div
@@ -49,20 +49,25 @@ export default function Index() {
             animate={exiting ? { opacity: 0 } : { opacity: [0.18, 0.3, 0.18] }}
             transition={{ duration: exiting ? 0.8 : 7, repeat: exiting ? 0 : Infinity, ease: "easeInOut" }}
           />
+          {/* top/bottom blue bands to eliminate black bars */}
+          <div className="absolute inset-0 -z-10 pointer-events-none" style={{
+            background:
+              "linear-gradient(to bottom, rgba(17,24,39,0.9), rgba(2,6,23,0.6) 35%, rgba(2,6,23,0.6) 65%, rgba(17,24,39,0.9))",
+          }} />
           {/* rotating conic gradient mesh for elegant depth */}
           <motion.div
             className="absolute inset-0 -z-10 mix-blend-screen opacity-40"
             style={{
               background:
-                "conic-gradient(from 0deg at 50% 50%, rgba(59,130,246,0.22), rgba(99,102,241,0.18), rgba(59,130,246,0.22))",
+                "conic-gradient(from 0deg at 50% 50%, rgba(37,99,235,0.20), rgba(99,102,241,0.18), rgba(37,99,235,0.20))",
             }}
             animate={exiting ? { rotate: 20, opacity: 0 } : { rotate: 0, opacity: 0.4 }}
-            transition={{ duration: exiting ? 0.8 : 12, repeat: exiting ? 0 : Infinity, ease: "linear" }}
+            transition={{ duration: exiting ? 0.8 : 16, repeat: exiting ? 0 : Infinity, ease: "linear" }}
           />
-          {/* soft vignette to focus the logo */}
+          {/* subtle vignette for focus */}
           <div
             className="absolute inset-0 -z-10 pointer-events-none"
-            style={{ background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.65) 100%)" }}
+            style={{ background: "radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%)" }}
           />
         </motion.div>
 
@@ -73,27 +78,32 @@ export default function Index() {
           className="flex flex-col items-center"
         >
           <motion.div
-            className="relative mb-6 grid place-items-center rounded-3xl bg-white/5 p-12 backdrop-blur-md"
+            className="relative mb-6 grid place-items-center p-0"
             initial={{ y: 6 }}
             animate={exiting ? { scale: 1.8, y: 0 } : { y: [6, -4, 6] }}
             transition={exiting ? { duration: 0.8, ease: "easeInOut" } : { duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
           >
+            {/* circular aura under logo for elegance */}
+            <motion.div
+              aria-hidden
+              className="absolute -z-10 h-[28rem] w-[28rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
+              style={{ left: "50%", top: "50%", background: "radial-gradient(circle at center, rgba(59,130,246,0.35), rgba(59,130,246,0.12) 55%, transparent 70%)" }}
+              animate={exiting ? { scale: 1.6, opacity: 0 } : { scale: [1, 1.04, 1], opacity: [0.7, 0.85, 0.7] }}
+              transition={{ duration: exiting ? 0.8 : 7, repeat: exiting ? 0 : Infinity, ease: "easeInOut" }}
+            />
             <img
               src="https://cdn.builder.io/o/assets%2Fab5c614cfe5b4908ac888441c9926f4e%2F07ba890e3aab4ca6849316c4a5f61771?alt=media&token=4e518cea-12ba-4b50-9caa-0bb566b9a85e&apiKey=ab5c614cfe5b4908ac888441c9926f4e"
               alt="Daemon blink logo"
               className="h-72 w-72 object-contain md:h-80 md:w-80"
             />
-            {/* subtle shine sweep */}
+            {/* subtle shine sweep across logo */}
             <motion.div
               aria-hidden
-              className="pointer-events-none absolute inset-0 rounded-3xl"
+              className="pointer-events-none absolute inset-0"
               initial={{ x: "-120%", opacity: 0 }}
               animate={{ x: ["-120%", "120%"], opacity: [0, 0.35, 0] }}
               transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-              style={{
-                background:
-                  "linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.35) 50%, transparent 70%)",
-              }}
+              style={{ background: "linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.35) 50%, transparent 65%)" }}
             />
           </motion.div>
         </motion.div>
