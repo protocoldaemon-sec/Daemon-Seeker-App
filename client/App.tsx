@@ -36,6 +36,7 @@ const App = () => (
             <Route path="/onboarding-2" element={<Onboarding />} />
             <Route path="/login" element={<LoginSolana />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/history" element={<Layout><History /></Layout>} />
             <Route path="/chat" element={<ChatCopilot />} />
             <Route
               path="/settings"
