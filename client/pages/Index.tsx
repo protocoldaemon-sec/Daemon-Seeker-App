@@ -72,6 +72,23 @@ export default function Index() {
           />
           {/* floating glow particles */}
           <GlowParticles count={28} />
+
+          {/* full-viewport subtle shine sweep (separate layer to ensure visibility) */}
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-1/2 z-20"
+            initial={{ x: "-70vw", opacity: 0 }}
+            animate={{ x: ["-70vw", "70vw"], opacity: [0, 0.3, 0] }}
+            transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
+            style={{
+              width: "200vw",
+              height: "200vh",
+              transform: "translate(-50%, -50%) rotate(18deg)",
+              background: "linear-gradient(90deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 60%)",
+              filter: "blur(18px)",
+              mixBlendMode: "screen",
+            }}
+          />
         </motion.div>
 
         <motion.div
