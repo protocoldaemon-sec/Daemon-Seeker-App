@@ -42,7 +42,7 @@ export default function History() {
   }, [timeRange, type, status]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0f16] via-[#0b1220] to-[#04070c] text-foreground">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="md:grid md:grid-cols-[16rem_1fr]">
         <div className="hidden md:block">
           <Sidebar />
