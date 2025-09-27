@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 export default function Settings() {
-  const [theme, setTheme] = useState<"system" | "light" | "dark">("system");
+  const { theme, setTheme } = useTheme();
   const [email, setEmail] = useState(true);
   const [push, setPush] = useState(false);
   const [product, setProduct] = useState(true);
