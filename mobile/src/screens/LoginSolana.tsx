@@ -97,6 +97,22 @@ export default function LoginSolana({ navigation }: Props) {
             <Text style={[styles.label, { marginTop: 12 }]}>Message to sign</Text>
             <View style={styles.textarea}><Text>{`Sign in to Daemon Protocol\nNonce: ${nonce}`}</Text></View>
 
+            <TouchableOpacity
+              style={[styles.button, styles.primary]}
+              onPress={async () => {
+                try {
+                  const { address: addr, signatureBase58 } = await signNonceWithSMWA(nonce);
+                  setAddress(addr);
+                  setSignature(signatureBase58);
+                  await verify();
+                } catch (e) {
+                  Alert.alert('Wallet', 'Signing canceled or failed');
+                }
+              }}
+            >
+              <Text style={[styles.buttonText, styles.primaryText]}>Sign with Wallet (SMWA)</Text>
+            </TouchableOpacity>
+
             <Text style={[styles.label, { marginTop: 12 }]}>Signature (Base58)</Text>
             <TextInput
               style={styles.input}
