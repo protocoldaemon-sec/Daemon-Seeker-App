@@ -106,4 +106,105 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
   }
+
+  /* iOS-style smooth interactions */
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Smooth scrolling like iOS */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  /* Advanced smooth transitions */
+  .smooth-transition {
+    @apply transition-all duration-500 ease-out;
+  }
+
+  /* Smooth hover lift */
+  .hover-lift {
+    @apply hover:scale-105 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 ease-out;
+  }
+
+  /* Smooth press feedback */
+  .press-feedback {
+    @apply active:scale-[0.97] active:brightness-95 transition-all duration-150 ease-out;
+  }
+
+  /* Smooth glow effect */
+  .glow-effect {
+    @apply hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] transition-shadow duration-500;
+  }
+
+  /* Smooth blur entrance */
+  .blur-entrance {
+    animation: blur-in 0.8s ease-out forwards;
+  }
+
+  /* Smooth scale entrance */
+  .scale-entrance {
+    animation: scale-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  /* Smooth slide up */
+  .slide-up {
+    animation: slide-up 0.6s ease-out forwards;
+  }
+
+  /* Smooth fade in */
+  .fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+  }
+}
+
+@keyframes blur-in {
+  from {
+    opacity: 0;
+    filter: blur(20px);
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

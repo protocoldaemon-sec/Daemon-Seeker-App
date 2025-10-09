@@ -8,6 +8,7 @@ import {
   LogOut,
   User,
   Home,
+  Shield,
 } from "lucide-react";
 import {
   Sheet,
@@ -17,13 +18,35 @@ import {
 } from "@/components/ui/sheet";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { smartTruncateAddress } from "@/lib/walletUtils";
+import { useWallet } from "@/hooks/useWallet";
 
 export default function MobileNav() {
   const [wallet, setWallet] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { disconnect } = useWallet();
+  
   useEffect(() => {
     setWallet(localStorage.getItem("wallet_address"));
   }, []);
+
+  const handleDisconnect = async () => {
+    try {
+      await disconnect();
+      setWallet(null);
+      navigate("/login", { replace: true });
+    } catch (error) {
+      console.error("Disconnect error:", error);
+      // Still navigate to login even if disconnect fails
+      navigate("/login", { replace: true });
+    }
+  };
 
   return (
     <div className="flex items-center">
@@ -46,14 +69,28 @@ export default function MobileNav() {
               <div className="mx-auto mb-4 grid size-24 place-items-center rounded-full bg-white/5">
                 <User className="size-10 text-white/80" />
               </div>
-              <div className="mx-auto w-full max-w-xs rounded-full bg-muted px-4 py-2 text-center text-sm font-medium">
-                {wallet ?? "wallet_address"}
-              </div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="mx-auto w-full max-w-xs sm:max-w-sm rounded-full bg-muted px-4 py-2 text-center text-sm font-medium cursor-help">
+                      {smartTruncateAddress(wallet, 'mobile')}
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom" className="max-w-xs">
+                    <p className="break-all text-xs">
+                      {wallet || "No wallet connected"}
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             <div className="h-px w-full bg-border" />
             <nav className="flex flex-1 flex-col gap-2 px-6 py-6 text-sm">
               <NavItem to="/home" icon={<Home className="size-5" />}>
                 Home
+              </NavItem>
+              <NavItem to="/audit" icon={<Shield className="size-5" />}>
+                Audit
               </NavItem>
               <NavItem to="/history" icon={<History className="size-5" />}>
                 History
@@ -71,14 +108,7 @@ export default function MobileNav() {
             <div className="px-6 pb-8">
               <SheetClose asChild>
                 <Button
-                  onClick={async () => {
-                    try {
-                      await window.solana?.disconnect?.();
-                    } catch {}
-                    localStorage.removeItem("daemon_token");
-                    localStorage.removeItem("wallet_address");
-                    navigate("/login", { replace: true });
-                  }}
+                  onClick={handleDisconnect}
                   className="h-12 w-full rounded-xl bg-indigo-500 text-white hover:bg-indigo-500/90"
                 >
                   <LogOut className="mr-2" /> Disconnect Wallet

@@ -27,17 +27,27 @@ function getSystem(): "light" | "dark" {
 
 function applyTheme(resolved: "light" | "dark") {
   const root = document.documentElement;
-  if (resolved === "dark") root.classList.add("dark");
-  else root.classList.remove("dark");
+  if (resolved === "dark") {
+    root.classList.add("dark");
+  } else {
+    root.classList.remove("dark");
+  }
+  console.log('Applied theme to HTML:', resolved, 'Classes:', root.className);
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeMode>(
-    () => (localStorage.getItem("theme") as ThemeMode) || "system",
-  );
-  const [resolved, setResolved] = useState<"light" | "dark">(
-    theme === "system" ? getSystem() : (theme as "light" | "dark"),
-  );
+  const [theme, setThemeState] = useState<ThemeMode>(() => {
+    const stored = localStorage.getItem("theme") as ThemeMode;
+    return stored || "system";
+  });
+  
+  const [resolved, setResolved] = useState<"light" | "dark">(() => {
+    const stored = localStorage.getItem("theme") as ThemeMode;
+    if (!stored || stored === "system") {
+      return getSystem();
+    }
+    return stored === "dark" ? "dark" : "light";
+  });
 
   useEffect(() => {
     if (theme === "system") {
@@ -47,13 +57,27 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       update();
       return () => mq.removeEventListener?.("change", update);
     } else {
-      setResolved(theme);
+      setResolved(theme === "dark" ? "dark" : "light");
     }
   }, [theme]);
 
-  useEffect(() => applyTheme(resolved), [resolved]);
+  useEffect(() => {
+    console.log('Applying theme:', resolved);
+    applyTheme(resolved);
+  }, [resolved]);
+
+  // Force apply theme on mount
+  useEffect(() => {
+    const stored = localStorage.getItem("theme") as ThemeMode;
+    if (stored) {
+      const resolvedTheme = stored === "system" ? getSystem() : (stored === "dark" ? "dark" : "light");
+      console.log('Force applying theme on mount:', resolvedTheme);
+      applyTheme(resolvedTheme);
+    }
+  }, []);
 
   const setTheme = useCallback((mode: ThemeMode) => {
+    console.log('Setting theme to:', mode);
     setThemeState(mode);
     localStorage.setItem("theme", mode);
   }, []);

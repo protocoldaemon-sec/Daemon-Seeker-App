@@ -1,4 +1,5 @@
-import Sidebar from "@/components/Sidebar";
+// import Sidebar from "@/components/Sidebar";
+// import MobileNav from "@/components/MobileNav";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -79,10 +80,15 @@ export default function History() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="md:grid md:grid-cols-[16rem_1fr]">
-        <div className="hidden md:block">
+        {/* <div className="hidden md:block">
           <Sidebar />
-        </div>
-        <main className="flex min-h-screen flex-col p-4 md:p-6">
+        </div> */}
+        <main className="min-h-screen">
+          <header className="sticky top-0 z-50 flex items-center justify-between border-b bg-background/80 backdrop-blur-sm px-4 py-4 md:hidden">
+            {/* <MobileNav /> */}
+          </header>
+
+          <div className="flex flex-col p-4 md:p-6">
           <div className="mx-auto w-full max-w-3xl rounded-2xl border bg-card p-4 shadow-xl">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-foreground">
@@ -194,6 +200,7 @@ export default function History() {
                 </TableCaption>
               </Table>
             </div>
+          </div>
           </div>
         </main>
       </div>

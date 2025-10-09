@@ -9,7 +9,7 @@ export default function Index() {
 
   useEffect(() => {
     const t1 = setTimeout(() => setExiting(true), 6200);
-    const t2 = setTimeout(() => navigate("/onboarding"), 7000);
+    const t2 = setTimeout(() => navigate("/login"), 7000);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);

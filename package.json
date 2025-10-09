@@ -18,14 +18,25 @@
     "start": "node dist/server/node-build.mjs",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "mobile:build": "npm run build:client && npx cap sync android",
+    "mobile:open": "npx cap open android",
+    "mobile:run": "npx cap run android",
+    "mobile:build:apk": "cd android && ./gradlew assembleDebug"
   },
   "dependencies": {
+    "@capacitor/android": "^7.4.3",
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
+    "@capacitor/splash-screen": "^7.0.3",
+    "@capacitor/status-bar": "^7.0.3",
     "@solana/web3.js": "^1.98.4",
     "bs58": "^6.0.0",
     "dotenv": "^17.2.1",
     "embla-carousel": "^8.6.0",
     "express": "^5.1.0",
+    "gsap": "^3.13.0",
+    "react-markdown": "^10.1.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
@@ -76,7 +87,7 @@
     "cors": "^2.8.5",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
-    "framer-motion": "^12.23.12",
+    "framer-motion": "^12.23.22",
     "globals": "^16.3.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.539.0",

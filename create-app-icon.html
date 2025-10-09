@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daemon Seeker App Icon Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a15, #1a1a2e);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .icon-preview {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 20px 0;
+            display: inline-block;
+        }
+        .icon {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .icon-inner {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transform: rotate(12deg);
+        }
+        .icon-symbol {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            position: relative;
+        }
+        .icon-symbol::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background: white;
+            border-radius: 8px;
+        }
+        .icon-symbol::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15px;
+            height: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+        }
+        canvas {
+            border: 2px solid #333;
+            margin: 10px;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        .download-section {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Daemon Seeker App Icon Generator</h1>
+        <p>Generate app icons for Android APK in all required sizes</p>
+        
+        <div class="icon-preview">
+            <div class="icon">
+                <div class="icon-inner">
+                    <div class="icon-symbol"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="download-section">
+            <h3>📱 App Icon Sizes</h3>
+            <p>Click the buttons below to generate and download app icons:</p>
+            
+            <button onclick="generateIcon(48, 'mipmap-mdpi')">48x48 (mdpi)</button>
+            <button onclick="generateIcon(72, 'mipmap-hdpi')">72x72 (hdpi)</button>
+            <button onclick="generateIcon(96, 'mipmap-xhdpi')">96x96 (xhdpi)</button>
+            <button onclick="generateIcon(144, 'mipmap-xxhdpi')">144x144 (xxhdpi)</button>
+            <button onclick="generateIcon(192, 'mipmap-xxxhdpi')">192x192 (xxxhdpi)</button>
+            
+            <div id="canvas-container"></div>
+        </div>
+        
+        <div style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+            <h3>📋 Instructions</h3>
+            <ol style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li>Click each button above to generate app icons</li>
+                <li>Right-click on each generated icon and "Save image as..."</li>
+                <li>Save them with these names:
+                    <ul>
+                        <li>ic_launcher.png (for mdpi)</li>
+                        <li>ic_launcher.png (for hdpi)</li>
+                        <li>ic_launcher.png (for xhdpi)</li>
+                        <li>ic_launcher.png (for xxhdpi)</li>
+                        <li>ic_launcher.png (for xxxhdpi)</li>
+                    </ul>
+                </li>
+                <li>Place them in the corresponding android/app/src/main/res/mipmap-* folders</li>
+                <li>Also create ic_launcher_round.png versions for round icons</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function generateIcon(size, folder) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            
+            // Draw main circle
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Create rounded corners
+            ctx.globalCompositeOperation = 'destination-in';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, size, size, size * 0.2);
+            ctx.fill();
+            
+            // Reset composite operation
+            ctx.globalCompositeOperation = 'source-over';
+            
+            // Draw inner white circle
+            const innerSize = size * 0.6;
+            const innerX = (size - innerSize) / 2;
+            const innerY = (size - innerSize) / 2;
+            
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.roundRect(innerX, innerY, innerSize, innerSize, innerSize * 0.25);
+            ctx.fill();
+            
+            // Draw symbol
+            const symbolSize = innerSize * 0.5;
+            const symbolX = innerX + (innerSize - symbolSize) / 2;
+            const symbolY = innerY + (innerSize - symbolSize) / 2;
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.roundRect(symbolX, symbolY, symbolSize, symbolSize, symbolSize * 0.25);
+            ctx.fill();
+            
+            // Draw inner symbol
+            const innerSymbolSize = symbolSize * 0.5;
+            const innerSymbolX = symbolX + (symbolSize - innerSymbolSize) / 2;
+            const innerSymbolY = symbolY + (symbolSize - innerSymbolSize) / 2;
+            
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.roundRect(innerSymbolX, innerSymbolY, innerSymbolSize, innerSymbolSize, innerSymbolSize * 0.25);
+            ctx.fill();
+            
+            // Draw center dot
+            const dotSize = innerSymbolSize * 0.5;
+            const dotX = innerSymbolX + (innerSymbolSize - dotSize) / 2;
+            const dotY = innerSymbolY + (innerSymbolSize - dotSize) / 2;
+            
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.roundRect(dotX, dotY, dotSize, dotSize, dotSize * 0.25);
+            ctx.fill();
+            
+            // Add to page
+            const container = document.getElementById('canvas-container');
+            const existingCanvas = container.querySelector(`canvas[data-size="${size}"]`);
+            if (existingCanvas) {
+                existingCanvas.remove();
+            }
+            
+            canvas.setAttribute('data-size', size);
+            canvas.setAttribute('data-folder', folder);
+            container.appendChild(canvas);
+            
+            // Add download link
+            const link = document.createElement('a');
+            link.download = `ic_launcher_${size}.png`;
+            link.href = canvas.toDataURL();
+            link.textContent = `Download ${size}x${size}`;
+            link.style.display = 'block';
+            link.style.color = '#667eea';
+            link.style.marginTop = '10px';
+            canvas.parentNode.appendChild(link);
+        }
+    </script>
+</body>
+</html>

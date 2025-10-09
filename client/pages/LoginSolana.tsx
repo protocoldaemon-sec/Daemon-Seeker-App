@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import bs58 from "bs58";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff, Mail, Lock, Wallet, Chrome } from "lucide-react";
 
 const API = "https://daemonprotocol-be-production.up.railway.app";
 
 export default function LoginSolana() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [address, setAddress] = useState("");
   const [nonce, setNonce] = useState("");
   const [signature, setSignature] = useState("");
@@ -107,39 +115,181 @@ export default function LoginSolana() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto grid min-h-screen grid-cols-1 md:grid-cols-[16rem_1fr]">
-        <div className="hidden md:block" />
-        <main className="flex flex-col items-center justify-center px-4 py-8">
-          <div className="w-full max-w-md rounded-2xl border bg-card p-6 shadow-sm">
-            <h1 className="mb-1 text-2xl font-semibold">Login with Solana</h1>
-            <p className="mb-6 text-sm text-muted-foreground">
-              Connect your wallet, fetch a nonce, and sign the message for
-              secure authentication.
-            </p>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80')"
+        }}
+      />
+      
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/20" />
+      
 
-            <div className="mb-4 flex items-center gap-2">
-              <Button onClick={connectWallet} variant="secondary">
-                Connect Phantom
+      {/* Header Branding */}
+      <div className="relative z-10 flex flex-col items-center pt-8">
+        {/* Logo */}
+        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg">
+          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg transform rotate-12" />
+        </div>
+        
+        {/* App Name */}
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">DAEMON PROTOCOL</h1>
+        
+        {/* Welcome Message */}
+        <p className="text-gray-700 text-sm">Nice to see you again!</p>
+      </div>
+
+      {/* Login Form Card */}
+      <div className="relative z-10 flex justify-center px-4 pt-8">
+        <div className="w-full max-w-sm">
+          <div className="bg-gray-900/80 backdrop-blur-xl rounded-3xl p-8 border border-gray-700/50">
+            
+            {/* Email Field */}
+            <div className="mb-4">
+              <Label htmlFor="email" className="text-white text-sm font-medium mb-2 block">
+                Email
+              </Label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="name@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="pl-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 rounded-xl h-12"
+                />
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-2">
+                <Label htmlFor="password" className="text-white text-sm font-medium">
+                  Password
+                </Label>
+                <button className="text-blue-400 text-sm hover:text-blue-300 transition-colors">
+                  Forgot password?
+                </button>
+              </div>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="pl-10 pr-10 bg-gray-800/50 border-gray-600 text-white placeholder-gray-400 rounded-xl h-12"
+                />
+                <button
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
+
+            {/* Separator */}
+            <div className="flex items-center my-6">
+              <div className="flex-1 h-px bg-gray-600" />
+              <span className="px-4 text-gray-400 text-sm">Or login with</span>
+              <div className="flex-1 h-px bg-gray-600" />
+            </div>
+
+            {/* Alternative Login Buttons */}
+            <div className="space-y-3 mb-6">
+              <Button
+                onClick={() => navigate("/wallet-connection")}
+                className="w-full bg-gray-800/50 border-gray-600 text-white hover:bg-gray-700/50 rounded-xl h-12 flex items-center justify-center gap-3"
+              >
+                <Wallet className="w-5 h-5" />
+                Connect Wallet
               </Button>
+              
+              <Button
+                className="w-full bg-gray-800/50 border-gray-600 text-white hover:bg-gray-700/50 rounded-xl h-12 flex items-center justify-center gap-3"
+              >
+                <Chrome className="w-5 h-5" />
+                Sign in with Google
+              </Button>
+            </div>
+
+            {/* Remember Me & Forgot Password */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="remember"
+                  checked={rememberMe}
+                  onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                  className="border-gray-600"
+                />
+                <Label htmlFor="remember" className="text-gray-300 text-sm">
+                  Remember me
+                </Label>
+              </div>
+              <button className="text-blue-400 text-sm hover:text-blue-300 transition-colors">
+                Forgot Password ?
+              </button>
+            </div>
+
+            {/* Sign In Button */}
+            <Button
+              onClick={() => {
+                if (email && password) {
+                  // Handle email/password login
+                  navigate("/home");
+                } else if (address && nonce && signature) {
+                  verify();
+                }
+              }}
+              disabled={loading}
+              className="w-full bg-gray-800 text-white hover:bg-gray-700 rounded-xl h-12 font-medium"
+            >
+              {loading ? "Signing in..." : "Sign in"}
+              </Button>
+
+            {/* Sign Up Link */}
+            <div className="text-center mt-6">
+              <span className="text-gray-400 text-sm">Don't have an account? </span>
+              <button className="text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors">
+                Sign Up
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between z-10">
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 bg-white rounded-lg flex items-center justify-center">
+            <div className="w-3 h-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-sm transform rotate-12" />
+          </div>
+          <span className="text-white text-sm">@DaemonProtocol</span>
+        </div>
+        <span className="text-white text-sm">© All right reserved 2025</span>
+      </div>
+
+      {/* Hidden Wallet Connection for Development */}
+      {!address && (
+        <div className="hidden">
+          <Button onClick={connectWallet}>Connect Phantom</Button>
               {address && (
                 <span className="truncate text-xs text-muted-foreground">
                   {address}
                 </span>
               )}
             </div>
+      )}
 
-            <label className="mb-1 block text-sm font-medium">
-              Address (base58)
-            </label>
-            <input
-              className="mb-4 w-full rounded-md border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-ring"
-              placeholder="Enter your public key"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-
-            <div className="flex items-center gap-2">
+      {/* Hidden Nonce and Signature Flow */}
+      {address && !nonce && (
+        <div className="hidden">
               <Button onClick={getNonce} disabled={!address || loading}>
                 Get Nonce
               </Button>
@@ -149,29 +299,13 @@ export default function LoginSolana() {
                 </span>
               )}
             </div>
+      )}
 
             {nonce && (
-              <div className="mt-6">
-                <label className="mb-1 block text-sm font-medium">
-                  Message to sign
-                </label>
-                <textarea
-                  className="w-full resize-none rounded-md border bg-muted/40 px-3 py-2 text-sm"
-                  rows={3}
-                  readOnly
-                  value={message}
-                />
-                <div className="mt-4 flex flex-wrap items-center gap-2">
+        <div className="hidden">
                   <Button onClick={signWithWallet} variant="default">
                     Sign with Wallet
                   </Button>
-                  <span className="text-xs text-muted-foreground">
-                    or paste signature manually
-                  </span>
-                </div>
-                <label className="mt-4 mb-1 block text-sm font-medium">
-                  Signature (Base58)
-                </label>
                 <input
                   className="mb-4 w-full rounded-md border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-ring"
                   placeholder="Paste signature"
@@ -188,13 +322,10 @@ export default function LoginSolana() {
             )}
 
             {token && (
-              <div className="mt-6 rounded-md bg-green-50 p-3 text-sm text-green-700">
+        <div className="hidden">
                 Authenticated. Token saved. Redirecting to Home…
               </div>
             )}
-          </div>
-        </main>
-      </div>
     </div>
   );
 }
