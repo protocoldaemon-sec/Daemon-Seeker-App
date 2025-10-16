@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2, Smartphone } from "lucide-react";
 import { useWallet } from "@/hooks/useWallet";
 import WalletConnectionModal from "@/components/WalletConnectionModal";
 import WalletSuccessModal from "@/components/WalletSuccessModal";
+import { openPhantomApp, openSolflareApp, openBackpackApp, isMobileDevice } from "@/utils/walletDeepLink";
+import PhantomLogo from "@/assets/logo/phantom-logo.svg";
+import SolflareLogo from "@/assets/logo/solflare-logo.svg";
+import DaemonLogo from "@/assets/logo/daemon-logo-black.svg";
+import Sphere from "@/components/Sphere"; 
+import DaemonLogoGif from "@/assets/logo/daemon-logo-blink.gif";
 
 export default function WalletConnection() {
   const navigate = useNavigate();
@@ -22,23 +28,51 @@ export default function WalletConnection() {
     clearError();
     
     try {
-      switch (walletType) {
-        case "phantom":
-          await connectPhantom();
-          break;
-        case "solflare":
-          await connectSolflare();
-          break;
-        case "backpack":
-          await connectBackpack();
-          break;
-        default:
-          throw new Error("Unknown wallet type");
+      // Cek apakah di mobile device
+      if (isMobileDevice()) {
+        // Untuk mobile, buka wallet APK
+        let success = false;
+        switch (walletType) {
+          case "phantom":
+            success = await openPhantomApp("Connect to Daemon Protocol");
+            break;
+          case "solflare":
+            success = await openSolflareApp("Connect to Daemon Protocol");
+            break;
+          case "backpack":
+            success = await openBackpackApp("Connect to Daemon Protocol");
+            break;
+          default:
+            throw new Error("Unknown wallet type");
+        }
+        
+        if (success) {
+          alert(`${walletType.charAt(0).toUpperCase() + walletType.slice(1)} app opened. Please connect your wallet and return to this app.`);
+          setShowConnectionModal(false);
+          setShowSuccessModal(true);
+        } else {
+          throw new Error(`Failed to open ${walletType} app. Please install from Play Store.`);
+        }
+      } else {
+        // Untuk desktop, gunakan browser extension
+        switch (walletType) {
+          case "phantom":
+            await connectPhantom();
+            break;
+          case "solflare":
+            await connectSolflare();
+            break;
+          case "backpack":
+            await connectBackpack();
+            break;
+          default:
+            throw new Error("Unknown wallet type");
+        }
+        
+        // On successful connection: close connecting modal and show success modal
+        setShowConnectionModal(false);
+        setShowSuccessModal(true);
       }
-      
-      // On successful connection: close connecting modal and show success modal
-      setShowConnectionModal(false);
-      setShowSuccessModal(true);
     } catch (err) {
       console.error(`${walletType} connection error:`, err);
       setIsInConnectionFlow(false);
@@ -74,18 +108,19 @@ export default function WalletConnection() {
     setConnectingWallet(null);
     setIsInConnectionFlow(false);
     localStorage.removeItem('isInConnectionFlow');
-    navigate("/home", { replace: true });
+    navigate("/chat", { replace: true });
   };
 
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Background Image */}
-      <div 
+      {/* <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80')"
         }}
-      />
+      /> */}
+      <Sphere className="absolute inset-0 z-0" />
       
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/20" />
@@ -93,21 +128,21 @@ export default function WalletConnection() {
       {/* Header Branding */}
       <div className="relative z-10 flex flex-col items-center pt-8">
         {/* Logo */}
-        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg transform rotate-12" />
+        <div className="w-26 h-26 flex items-center justify-center mb-2">
+          <img src={DaemonLogoGif} alt="Daemon Logo Gif" width={255} height={255} />
         </div>
         
         {/* App Name */}
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">DAEMON PROTOCOL</h1>
+        <h1 className="text-2xl font-bold text-white-900 mb-2">DAEMON PROTOCOL</h1>
         
         {/* Welcome Message */}
-        <p className="text-gray-700 text-sm">Nice to see you again!</p>
+        <p className="text-white-700 text-sm">Nice to see you again!</p>
       </div>
 
       {/* Wallet Connection Card */}
       <div className="relative z-10 flex justify-center px-4 pt-8">
         <div className="w-full max-w-sm">
-          <div className="bg-gray-900/80 backdrop-blur-xl rounded-3xl p-8 border border-gray-700/50">
+          <div className="bg-gray-900/25 backdrop-blur-xl rounded-3xl p-8 border border-gray-700/50">
             
             {/* Back Button */}
             <button
@@ -125,6 +160,15 @@ export default function WalletConnection() {
               </div>
             )}
 
+            {/* Mobile Device Notice */}
+            {/* {isMobileDevice() && (
+              <div className="mb-4 p-3 bg-blue-500/20 border border-blue-500/50 rounded-xl">
+                <p className="text-blue-300 text-sm">
+                  📱 Mobile detected - This will open your wallet app
+                </p>
+              </div>
+            )} */}
+
             {/* Wallet Options */}
             <div className="space-y-4">
               {/* Phantom Wallet */}
@@ -137,12 +181,16 @@ export default function WalletConnection() {
                   {(connectingWallet === "phantom" || isConnecting) ? (
                     <Loader2 className="w-4 h-4 animate-spin text-white" />
                   ) : (
-                    <div className="w-5 h-5 bg-white rounded-sm" />
+                    // <div className="w-5 h-5 bg-white rounded-sm" />
+                    <img src={PhantomLogo} className="text-foreground" width={15} height={15} />
                   )}
                 </div>
                 <span className="text-lg font-medium">
                   {(connectingWallet === "phantom" || isConnecting) ? "Connecting..." : "Phantom"}
                 </span>
+                {isMobileDevice() && (
+                  <Smartphone className="w-4 h-4 text-gray-400 ml-auto" />
+                )}
               </Button>
 
               {/* Solflare Wallet */}
@@ -155,16 +203,21 @@ export default function WalletConnection() {
                   {(connectingWallet === "solflare" || isConnecting) ? (
                     <Loader2 className="w-4 h-4 animate-spin text-white" />
                   ) : (
-                    <span className="text-yellow-900 font-bold text-sm">S</span>
+                    // <span className="text-yellow-900 font-bold text-sm">S</span>
+                    <img src={SolflareLogo} className="text-foreground" width={15} height={15} />
+
                   )}
                 </div>
                 <span className="text-lg font-medium">
                   {(connectingWallet === "solflare" || isConnecting) ? "Connecting..." : "Solflare"}
                 </span>
+                {isMobileDevice() && (
+                  <Smartphone className="w-4 h-4 text-gray-400 ml-auto" />
+                )}
               </Button>
 
               {/* Backpack Wallet */}
-              <Button
+              {/* <Button
                 onClick={() => handleConnectWallet('backpack')}
                 disabled={isConnecting || connectingWallet !== null}
                 className="w-full bg-gray-800/50 border-gray-600 text-white hover:bg-gray-700/50 rounded-xl h-14 flex items-center justify-start gap-4 px-6 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -179,7 +232,10 @@ export default function WalletConnection() {
                 <span className="text-lg font-medium">
                   {(connectingWallet === "backpack" || isConnecting) ? "Connecting..." : "Backpack"}
                 </span>
-              </Button>
+                {isMobileDevice() && (
+                  <Smartphone className="w-4 h-4 text-gray-400 ml-auto" />
+                )}
+              </Button> */}
             </div>
           </div>
         </div>
@@ -189,7 +245,9 @@ export default function WalletConnection() {
       <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between z-10">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 bg-white rounded-lg flex items-center justify-center">
-            <div className="w-3 h-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-sm transform rotate-12" />
+            {/* <div className="w-3 h-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-sm transform rotate-12" /> */}
+            <img src={DaemonLogo} className="text-black" width={25} height={25} />
+
           </div>
           <span className="text-white text-sm">@DaemonProtocol</span>
         </div>

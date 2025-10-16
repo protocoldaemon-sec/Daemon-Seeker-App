@@ -187,6 +187,7 @@ export function useWallet() {
     }
   };
 
+
   const disconnect = async (): Promise<void> => {
     try {
       if (wallet?.type === 'phantom' && window.phantom?.solana) {

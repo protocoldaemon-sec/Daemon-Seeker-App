@@ -1,5 +1,5 @@
 import { useTheme } from "@/hooks/useTheme";
-import DaemonLogo from "@/components/DaemonLogo";
+import DaemonLogo from "@/assets/logo/daemon-logo.svg";
 
 interface HeaderProps {
   title?: string;
@@ -50,7 +50,7 @@ export default function Header({
           
           {/* Center - Logo */}
           <div className="flex items-center justify-center">
-            <DaemonLogo size={28} className="text-white" />
+            <img src={DaemonLogo} alt="Daemon Logo" width={35} height={35} />
           </div>
           
           {/* Right spacer */}
@@ -60,7 +60,7 @@ export default function Header({
         <>
           {/* Left side - Logo */}
           <div className="flex items-center">
-            <DaemonLogo size={28} className="text-white" />
+            <img src={DaemonLogo} alt="Daemon Logo" width={35} height={35} />
           </div>
 
           {/* Center - Custom content */}
@@ -83,4 +83,3 @@ export default function Header({
     </header>
   );
 }
-

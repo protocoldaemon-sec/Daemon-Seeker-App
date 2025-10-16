@@ -5,7 +5,11 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import bs58 from "bs58";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeOff, Mail, Lock, Wallet, Chrome } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Wallet, Chrome, Smartphone } from "lucide-react";
+import { openPhantomApp, openSolflareApp, openBackpackApp, isMobileDevice } from "@/utils/walletDeepLink";
+import Sphere from "@/components/Sphere"; 
+import DaemonLogoGif from "@/assets/logo/daemon-logo-blink.gif";
+import DaemonLogo from "@/assets/logo/daemon-logo-black.svg";
 
 const API = "https://daemonprotocol-be-production.up.railway.app";
 
@@ -24,18 +28,30 @@ export default function LoginSolana() {
 
   const connectWallet = async () => {
     try {
-      const provider = window.solana;
-      if (!provider) {
-        alert("Phantom wallet not found. Please install Phantom.");
-        return;
-      }
-      const res = await provider.connect();
-      const pk =
-        (res?.publicKey as any)?.toBase58?.() ??
-        (provider.publicKey as any)?.toBase58?.();
-      if (pk) {
-        setAddress(pk);
-        localStorage.setItem("wallet_address", pk);
+      // Cek apakah di mobile device atau desktop
+      if (isMobileDevice()) {
+        // Untuk mobile, buka Phantom APK
+        const success = await openPhantomApp("Connect to Daemon Protocol");
+        if (success) {
+          alert("Phantom app opened. Please connect your wallet and return to this app.");
+        } else {
+          alert("Failed to open Phantom app. Please install Phantom from Play Store.");
+        }
+      } else {
+        // Untuk desktop, gunakan browser extension
+        const provider = window.solana;
+        if (!provider) {
+          alert("Phantom wallet not found. Please install Phantom extension.");
+          return;
+        }
+        const res = await provider.connect();
+        const pk =
+          (res?.publicKey as any)?.toBase58?.() ??
+          (provider.publicKey as any)?.toBase58?.();
+        if (pk) {
+          setAddress(pk);
+          localStorage.setItem("wallet_address", pk);
+        }
       }
     } catch (e) {
       console.error(e);
@@ -117,12 +133,13 @@ export default function LoginSolana() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Background Image */}
-      <div 
+      {/* <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2340&q=80')"
         }}
-      />
+      /> */}
+      <Sphere className="absolute inset-0 z-0" />
       
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/20" />
@@ -131,21 +148,22 @@ export default function LoginSolana() {
       {/* Header Branding */}
       <div className="relative z-10 flex flex-col items-center pt-8">
         {/* Logo */}
-        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg transform rotate-12" />
+        <div className="w-26 h-26 flex items-center justify-center mb-2">
+          {/* <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg transform rotate-12" /> */}
+          <img src={DaemonLogoGif} alt="Daemon Logo Gif" width={255} height={255} />
         </div>
         
         {/* App Name */}
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">DAEMON PROTOCOL</h1>
+        <h1 className="text-2xl -mt-12 font-bold text-white-900 mb-2">DAEMON PROTOCOL</h1>
         
         {/* Welcome Message */}
-        <p className="text-gray-700 text-sm">Nice to see you again!</p>
+        <p className="text-white-700 text-sm">Nice to see you again!</p>
       </div>
 
       {/* Login Form Card */}
       <div className="relative z-10 flex justify-center px-4 pt-8">
         <div className="w-full max-w-sm">
-          <div className="bg-gray-900/80 backdrop-blur-xl rounded-3xl p-8 border border-gray-700/50">
+          <div className="bg-gray-900/25 backdrop-blur-xl rounded-3xl p-8 border border-gray-700/50">
             
             {/* Email Field */}
             <div className="mb-4">
@@ -211,6 +229,24 @@ export default function LoginSolana() {
                 Connect Wallet
               </Button>
               
+              {/* Mobile Wallet Button */}
+              {isMobileDevice() && (
+                <Button
+                  onClick={async () => {
+                    const success = await openPhantomApp("Connect to Daemon Protocol");
+                    if (success) {
+                      alert("Phantom app opened. Please connect your wallet and return to this app.");
+                    } else {
+                      alert("Failed to open Phantom app. Please install Phantom from Play Store.");
+                    }
+                  }}
+                  className="w-full bg-green-600/50 border-green-500 text-white hover:bg-green-500/50 rounded-xl h-12 flex items-center justify-center gap-3"
+                >
+                  <Smartphone className="w-5 h-5" />
+                  Open Phantom App
+                </Button>
+              )}
+              
               <Button
                 className="w-full bg-gray-800/50 border-gray-600 text-white hover:bg-gray-700/50 rounded-xl h-12 flex items-center justify-center gap-3"
               >
@@ -268,7 +304,7 @@ export default function LoginSolana() {
       <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between z-10">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 bg-white rounded-lg flex items-center justify-center">
-            <div className="w-3 h-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-sm transform rotate-12" />
+            <img src={DaemonLogo} className="text-black" width={25} height={25} />
           </div>
           <span className="text-white text-sm">@DaemonProtocol</span>
         </div>

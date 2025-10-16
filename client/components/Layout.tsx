@@ -3,7 +3,7 @@ import MobileNav from "@/components/MobileNav";
 import { Crown } from "lucide-react";
 import { motion } from "framer-motion";
 import { useGSAPFadeIn } from "@/hooks/useGSAP";
-import DaemonLogo from "@/components/DaemonLogo";
+import DaemonLogo from "@/assets/logo/daemon-logo.svg";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const contentRef = useGSAPFadeIn(0.3);
@@ -40,7 +40,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 ease: "easeInOut"
               }}
             >
-              <DaemonLogo size={24} className="text-foreground" />
+              {/* <DaemonLogo size={24} className="text-foreground" /> */}
+              <img src={DaemonLogo} className="text-foreground" width={35} height={35} />
+
             </motion.div>
             <motion.button
               aria-label="Premium"

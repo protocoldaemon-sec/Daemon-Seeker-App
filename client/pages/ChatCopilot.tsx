@@ -3,9 +3,10 @@ import { useState, useRef, useEffect } from "react"
 import { Send, Bot, Image, FileText, Users, Shield } from "lucide-react"
 import ReactMarkdown from 'react-markdown'
 import type { Components } from 'react-markdown'
-import Sidebar from "@/components/Sidebar"
-import MobileNav from "@/components/MobileNav"
+// import Sidebar from "@/components/Sidebar"
+// import MobileNav from "@/components/MobileNav"
 import { useTheme } from "@/hooks/useTheme"
+import Layout from "@/components/Layout"
 
 interface Message {
   id: string
@@ -91,9 +92,14 @@ export default function ChatCopilot() {
           id: "welcome-1",
           text: `# Hello there! 👋
 
-Make anything you want, whenever you want.
+How can I assist you with your investigation today? You can ask me things like:
 
-I'm your AI security assistant specializing in blockchain analysis. I can help you with smart contract audits, transaction analysis, and security risk assessments.`,
+- Audit this smart contract: 0x...
+- Give me a summary of this transaction: txhash...
+- Trace the funds from this address: address...
+- Analyze security risks for: wallet_address...
+
+I can perform real-time blockchain analysis and provide detailed security reports!`,
           sender: "copilot",
           timestamp: new Date(),
         },
@@ -938,1026 +944,1029 @@ I'm your AI security assistant specializing in blockchain analysis. I can help y
         : 'bg-gradient-to-br from-slate-50 to-slate-100 text-slate-900'
     }`}>
       <div className="md:grid md:grid-cols-[16rem_1fr]">
-        <div className="hidden md:block">
+        {/* <div className="hidden md:block">
           <Sidebar />
-        </div>
-        <main className="min-h-screen">
-          <header className={`sticky top-0 z-50 flex items-center justify-between border-b backdrop-blur-sm px-4 py-4 md:hidden ${
-            resolvedTheme === 'dark' 
-              ? 'bg-slate-900/80 border-slate-700' 
-              : 'bg-white/80 border-slate-200'
-          }`}>
-            <MobileNav />
-            <button className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-lg font-medium transition-colors flex items-center gap-1.5 text-sm">
-              <Bot className="w-3 h-3" />
-              Try premium
-            </button>
-          </header>
+        </div> */}
+          <main className="min-h-screen">
+            {/* <header className={`sticky top-0 z-50 flex items-center justify-between border-b backdrop-blur-sm px-4 py-4 md:hidden ${
+              resolvedTheme === 'dark' 
+                ? 'bg-slate-900/80 border-slate-700' 
+                : 'bg-white/80 border-slate-200'
+            }`}>
+              <MobileNav />
+              <button className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-lg font-medium transition-colors flex items-center gap-1.5 text-sm">
+                <Bot className="w-3 h-3" />
+                
+              </button>
+            </header> */}
+          <Layout>
 
-          <div className="h-[calc(100vh-4rem)] md:h-screen max-h-[calc(100vh-4rem)] md:max-h-screen flex flex-col relative overflow-hidden">
-            {/* Feature Cards - Only show when no user messages yet */}
-            {messages.length <= 1 && (
-              <div className="px-6 py-8">
-                <div className="grid grid-cols-2 gap-4 mb-8">
-                <div 
-                  className={`backdrop-blur-sm rounded-2xl p-4 border shadow-sm hover:shadow-md transition-all cursor-pointer ${
-                    resolvedTheme === 'dark'
-                      ? 'bg-slate-800/70 border-slate-700/50'
-                      : 'bg-white/70 border-white/50'
-                  }`}
-                  onClick={() => {
-                    setInputValue("Audit this smart contract: 0x...");
-                    setTimeout(() => document.querySelector('input')?.focus(), 100);
-                  }}
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <Shield className="w-6 h-6 text-purple-500" />
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                      resolvedTheme === 'dark' ? 'bg-slate-600' : 'bg-slate-200'
-                    }`}>
-                      <svg className={`w-3 h-3 ${
-                        resolvedTheme === 'dark' ? 'text-slate-400' : 'text-slate-600'
-                      }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
-                      </svg>
+            <div className="h-[calc(100vh-4rem)] md:h-screen max-h-[calc(100vh-4rem)] md:max-h-screen flex flex-col relative overflow-hidden">
+              {/* Feature Cards - Only show when no user messages yet */}
+              {/* {messages.length <= 1 && (
+                <div className="px-6 py-8">
+                  <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div 
+                    className={`backdrop-blur-sm rounded-2xl p-4 border shadow-sm hover:shadow-md transition-all cursor-pointer ${
+                      resolvedTheme === 'dark'
+                        ? 'bg-slate-800/70 border-slate-700/50'
+                        : 'bg-white/70 border-white/50'
+                    }`}
+                    onClick={() => {
+                      setInputValue("Audit this smart contract: 0x...");
+                      setTimeout(() => document.querySelector('input')?.focus(), 100);
+                    }}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <Shield className="w-6 h-6 text-purple-500" />
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                        resolvedTheme === 'dark' ? 'bg-slate-600' : 'bg-slate-200'
+                      }`}>
+                        <svg className={`w-3 h-3 ${
+                          resolvedTheme === 'dark' ? 'text-slate-400' : 'text-slate-600'
+                        }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
+                        </svg>
+              </div>
+              </div>
+                    <p className={`text-sm ${
+                      resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                    }`}>Audit this smart contract: 0x...</p>
             </div>
-            </div>
-                  <p className={`text-sm ${
-                    resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-700'
-                  }`}>Audit this smart contract: 0x...</p>
-          </div>
 
-                <div 
-                  className={`backdrop-blur-sm rounded-2xl p-4 border shadow-sm hover:shadow-md transition-all cursor-pointer ${
-                    resolvedTheme === 'dark'
-                      ? 'bg-slate-800/70 border-slate-700/50'
-                      : 'bg-white/70 border-white/50'
-                  }`}
-                  onClick={() => {
-                    setInputValue("Give me a summary of this transaction: txhash...");
-                    setTimeout(() => document.querySelector('input')?.focus(), 100);
-                  }}
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <FileText className="w-6 h-6 text-blue-500" />
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                      resolvedTheme === 'dark' ? 'bg-slate-600' : 'bg-slate-200'
-                    }`}>
-                      <svg className={`w-3 h-3 ${
-                        resolvedTheme === 'dark' ? 'text-slate-400' : 'text-slate-600'
-                      }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
-                      </svg>
-                </div>
+                  <div 
+                    className={`backdrop-blur-sm rounded-2xl p-4 border shadow-sm hover:shadow-md transition-all cursor-pointer ${
+                      resolvedTheme === 'dark'
+                        ? 'bg-slate-800/70 border-slate-700/50'
+                        : 'bg-white/70 border-white/50'
+                    }`}
+                    onClick={() => {
+                      setInputValue("Give me a summary of this transaction: txhash...");
+                      setTimeout(() => document.querySelector('input')?.focus(), 100);
+                    }}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <FileText className="w-6 h-6 text-blue-500" />
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                        resolvedTheme === 'dark' ? 'bg-slate-600' : 'bg-slate-200'
+                      }`}>
+                        <svg className={`w-3 h-3 ${
+                          resolvedTheme === 'dark' ? 'text-slate-400' : 'text-slate-600'
+                        }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
+                        </svg>
                   </div>
-                  <p className={`text-sm ${
-                    resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-700'
-                  }`}>Give me a summary of this transaction: txhash...</p>
-                </div>
-
-                <div 
-                  className={`backdrop-blur-sm rounded-2xl p-4 border shadow-sm hover:shadow-md transition-all cursor-pointer ${
-                    resolvedTheme === 'dark'
-                      ? 'bg-slate-800/70 border-slate-700/50'
-                      : 'bg-white/70 border-white/50'
-                  }`}
-                  onClick={() => {
-                    setInputValue("Trace the funds from this address: address...");
-                    setTimeout(() => document.querySelector('input')?.focus(), 100);
-                  }}
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <Users className="w-6 h-6 text-green-500" />
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                      resolvedTheme === 'dark' ? 'bg-slate-600' : 'bg-slate-200'
-                    }`}>
-                      <svg className={`w-3 h-3 ${
-                        resolvedTheme === 'dark' ? 'text-slate-400' : 'text-slate-600'
-                      }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
-                      </svg>
                     </div>
+                    <p className={`text-sm ${
+                      resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                    }`}>Give me a summary of this transaction: txhash...</p>
                   </div>
-                  <p className={`text-sm ${
-                    resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-700'
-                  }`}>Trace the funds from this address: address...</p>
-                </div>
 
-                <div 
-                  className={`backdrop-blur-sm rounded-2xl p-4 border shadow-sm hover:shadow-md transition-all cursor-pointer ${
-                    resolvedTheme === 'dark'
-                      ? 'bg-slate-800/70 border-slate-700/50'
-                      : 'bg-white/70 border-white/50'
-                  }`}
-                  onClick={() => {
-                    setInputValue("Analyze security risks for: wallet_address");
-                    setTimeout(() => document.querySelector('input')?.focus(), 100);
-                  }}
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <Shield className="w-6 h-6 text-orange-500" />
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                      resolvedTheme === 'dark' ? 'bg-slate-600' : 'bg-slate-200'
-                    }`}>
-                      <svg className={`w-3 h-3 ${
-                        resolvedTheme === 'dark' ? 'text-slate-400' : 'text-slate-600'
-                      }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
-                      </svg>
-              </div>
-                  </div>
-                  <p className={`text-sm ${
-                    resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-700'
-                  }`}>Analyze security risks for: wallet_address</p>
-                </div>
-              </div>
-              </div>
-            )}
-
-            {/* Chat Messages Container */}
-            <div className="flex-1 px-6 pb-4 overflow-hidden mb-24">
-              <div ref={chatWindowRef} className={`h-full overflow-y-auto pb-4 ${
-                resolvedTheme === 'dark' ? 'scrollbar-thin scrollbar-track-slate-800 scrollbar-thumb-slate-600' : 'scrollbar-thin scrollbar-track-slate-100 scrollbar-thumb-slate-300'
-              }`}>
-
-                {/* Chat messages */}
-                <div className="space-y-4 pb-4">
-                  {messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex items-start gap-3 ${
-                        message.sender === "user" ? "flex-row-reverse" : ""
-                      }`}
-                    >
-                      {/* Avatar */}
-                      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                        message.sender === "user" 
-                          ? resolvedTheme === 'dark' 
-                            ? "bg-gradient-to-br from-blue-600 to-purple-700" 
-                            : "bg-gradient-to-br from-blue-500 to-purple-600"
-                          : resolvedTheme === 'dark'
-                            ? "bg-gradient-to-br from-slate-700 to-slate-600"
-                            : "bg-gradient-to-br from-slate-200 to-slate-300"
+                  <div 
+                    className={`backdrop-blur-sm rounded-2xl p-4 border shadow-sm hover:shadow-md transition-all cursor-pointer ${
+                      resolvedTheme === 'dark'
+                        ? 'bg-slate-800/70 border-slate-700/50'
+                        : 'bg-white/70 border-white/50'
+                    }`}
+                    onClick={() => {
+                      setInputValue("Trace the funds from this address: address...");
+                      setTimeout(() => document.querySelector('input')?.focus(), 100);
+                    }}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <Users className="w-6 h-6 text-green-500" />
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                        resolvedTheme === 'dark' ? 'bg-slate-600' : 'bg-slate-200'
                       }`}>
-                        {message.sender === "copilot" ? (
-                          <Bot className={`w-4 h-4 ${resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`} />
-                        ) : (
-                          <div className="w-4 h-4 bg-white rounded-full"></div>
-                        )}
+                        <svg className={`w-3 h-3 ${
+                          resolvedTheme === 'dark' ? 'text-slate-400' : 'text-slate-600'
+                        }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
+                        </svg>
                       </div>
+                    </div>
+                    <p className={`text-sm ${
+                      resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                    }`}>Trace the funds from this address: address...</p>
+                  </div>
 
-                      {/* Message bubble */}
-                      <div className={`max-w-[85%] rounded-2xl px-4 py-3 ${
-                        message.sender === "user"
-                          ? resolvedTheme === 'dark'
-                            ? "bg-gradient-to-br from-blue-600 to-purple-700 text-white shadow-sm"
-                            : "bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-sm"
-                          : resolvedTheme === 'dark'
-                            ? "bg-slate-800 text-slate-100 shadow-sm border border-slate-700"
-                            : "bg-white text-slate-900 shadow-sm border border-slate-200"
+                  <div 
+                    className={`backdrop-blur-sm rounded-2xl p-4 border shadow-sm hover:shadow-md transition-all cursor-pointer ${
+                      resolvedTheme === 'dark'
+                        ? 'bg-slate-800/70 border-slate-700/50'
+                        : 'bg-white/70 border-white/50'
+                    }`}
+                    onClick={() => {
+                      setInputValue("Analyze security risks for: wallet_address");
+                      setTimeout(() => document.querySelector('input')?.focus(), 100);
+                    }}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <Shield className="w-6 h-6 text-orange-500" />
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                        resolvedTheme === 'dark' ? 'bg-slate-600' : 'bg-slate-200'
                       }`}>
-                        <div className={`max-w-none ${message.sender === "user" ? "break-words whitespace-pre-wrap" : ""}`}>
-                          {message.text.includes('<div class="security-report">') ? (
-                            <div 
-                              className="modern-analysis-container"
-                              dangerouslySetInnerHTML={{ __html: message.text }}
-                            />
+                        <svg className={`w-3 h-3 ${
+                          resolvedTheme === 'dark' ? 'text-slate-400' : 'text-slate-600'
+                        }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
+                        </svg>
+                </div>
+                    </div>
+                    <p className={`text-sm ${
+                      resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-700'
+                    }`}>Analyze security risks for: wallet_address</p>
+                  </div>
+                </div>
+                </div>
+              )} */}
+
+              {/* Chat Messages Container */}
+              <div className="flex-1 px-6 mt-12 pb-4 overflow-hidden mb-24">
+                <div ref={chatWindowRef} className={`h-full overflow-y-auto pb-4 ${
+                  resolvedTheme === 'dark' ? 'scrollbar-thin scrollbar-track-slate-800 scrollbar-thumb-slate-600' : 'scrollbar-thin scrollbar-track-slate-100 scrollbar-thumb-slate-300'
+                }`}>
+
+                  {/* Chat messages */}
+                  <div className="space-y-4 pb-4">
+                    {messages.map((message) => (
+                      <div
+                        key={message.id}
+                        className={`flex items-start gap-3 ${
+                          message.sender === "user" ? "flex-row-reverse" : ""
+                        }`}
+                      >
+                        {/* Avatar */}
+                        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                          message.sender === "user" 
+                            ? resolvedTheme === 'dark' 
+                              ? "bg-gradient-to-br from-blue-600 to-purple-700" 
+                              : "bg-gradient-to-br from-blue-500 to-purple-600"
+                            : resolvedTheme === 'dark'
+                              ? "bg-gradient-to-br from-slate-700 to-slate-600"
+                              : "bg-gradient-to-br from-slate-200 to-slate-300"
+                        }`}>
+                          {message.sender === "copilot" ? (
+                            <Bot className={`w-4 h-4 ${resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`} />
                           ) : (
-                            <div className={`markdown-content ${message.sender === "user" ? "break-words whitespace-pre-wrap" : ""}`}>
-                              <ReactMarkdown 
-                                components={markdownComponents}
-                                remarkPlugins={[]}
-                                rehypePlugins={[]}
-                                skipHtml={false}
-                              >
-                                {preprocessMarkdownText(message.text)}
-                              </ReactMarkdown>
-                            </div>
+                            <div className="w-4 h-4 bg-white rounded-full"></div>
                           )}
                         </div>
-                        
-                        {/* Progress bar for streaming */}
-                        {message.isStreaming && message.streamingProgress !== undefined && (
-                          <div className="mt-3 space-y-2">
-                            <div className="flex justify-between text-xs opacity-75">
-                              <span>Analyzing...</span>
-                              <span>{message.streamingProgress}%</span>
-                            </div>
-                            <div className="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
-                              <div 
-                                className="bg-gradient-to-r from-blue-500 to-purple-600 h-1.5 rounded-full transition-all duration-500 ease-out" 
-                                style={{ width: `${message.streamingProgress}%` }}
-                              ></div>
-                            </div>
-                          </div>
-                        )}
-                </div>
-              </div>
-            ))}
 
-                  {/* Typing indicator */}
-                  {isTyping && (
-                    <div className="flex items-start gap-3">
-                      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                        resolvedTheme === 'dark' 
-                          ? 'bg-gradient-to-br from-slate-700 to-slate-600' 
-                          : 'bg-gradient-to-br from-slate-200 to-slate-300'
-                      }`}>
-                        <Bot className={`w-4 h-4 ${resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`} />
-                      </div>
-                      <div className={`rounded-2xl px-4 py-3 shadow-sm border ${
-                        resolvedTheme === 'dark' 
-                          ? 'bg-slate-800 border-slate-700' 
-                          : 'bg-white border-slate-200'
-                      }`}>
-                        <div className="flex gap-1">
-                          <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${
-                            resolvedTheme === 'dark' ? 'bg-slate-400' : 'bg-slate-400'
-                          }`} style={{ animationDelay: "-0.32s" }}></div>
-                          <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${
-                            resolvedTheme === 'dark' ? 'bg-slate-400' : 'bg-slate-400'
-                          }`} style={{ animationDelay: "-0.16s" }}></div>
-                          <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${
-                            resolvedTheme === 'dark' ? 'bg-slate-400' : 'bg-slate-400'
-                          }`}></div>
+                        {/* Message bubble */}
+                        <div className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                          message.sender === "user"
+                            ? resolvedTheme === 'dark'
+                              ? "bg-gradient-to-br from-blue-600 to-purple-700 text-white shadow-sm"
+                              : "bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-sm"
+                            : resolvedTheme === 'dark'
+                              ? "bg-slate-800 text-slate-100 shadow-sm border border-slate-700"
+                              : "bg-white text-slate-900 shadow-sm border border-slate-200"
+                        }`}>
+                          <div className={`max-w-none ${message.sender === "user" ? "break-words whitespace-pre-wrap" : ""}`}>
+                            {message.text.includes('<div class="security-report">') ? (
+                              <div 
+                                className="modern-analysis-container"
+                                dangerouslySetInnerHTML={{ __html: message.text }}
+                              />
+                            ) : (
+                              <div className={`markdown-content ${message.sender === "user" ? "break-words whitespace-pre-wrap" : ""}`}>
+                                <ReactMarkdown 
+                                  components={markdownComponents}
+                                  remarkPlugins={[]}
+                                  rehypePlugins={[]}
+                                  skipHtml={false}
+                                >
+                                  {preprocessMarkdownText(message.text)}
+                                </ReactMarkdown>
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Progress bar for streaming */}
+                          {message.isStreaming && message.streamingProgress !== undefined && (
+                            <div className="mt-3 space-y-2">
+                              <div className="flex justify-between text-xs opacity-75">
+                                <span>Analyzing...</span>
+                                <span>{message.streamingProgress}%</span>
+                              </div>
+                              <div className="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                                <div 
+                                  className="bg-gradient-to-r from-blue-500 to-purple-600 h-1.5 rounded-full transition-all duration-500 ease-out" 
+                                  style={{ width: `${message.streamingProgress}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          )}
+                  </div>
+                </div>
+              ))}
+
+                    {/* Typing indicator */}
+                    {isTyping && (
+                      <div className="flex items-start gap-3">
+                        <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
+                          resolvedTheme === 'dark' 
+                            ? 'bg-gradient-to-br from-slate-700 to-slate-600' 
+                            : 'bg-gradient-to-br from-slate-200 to-slate-300'
+                        }`}>
+                          <Bot className={`w-4 h-4 ${resolvedTheme === 'dark' ? 'text-slate-300' : 'text-slate-600'}`} />
+                        </div>
+                        <div className={`rounded-2xl px-4 py-3 shadow-sm border ${
+                          resolvedTheme === 'dark' 
+                            ? 'bg-slate-800 border-slate-700' 
+                            : 'bg-white border-slate-200'
+                        }`}>
+                          <div className="flex gap-1">
+                            <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${
+                              resolvedTheme === 'dark' ? 'bg-slate-400' : 'bg-slate-400'
+                            }`} style={{ animationDelay: "-0.32s" }}></div>
+                            <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${
+                              resolvedTheme === 'dark' ? 'bg-slate-400' : 'bg-slate-400'
+                            }`} style={{ animationDelay: "-0.16s" }}></div>
+                            <div className={`w-1.5 h-1.5 rounded-full animate-bounce ${
+                              resolvedTheme === 'dark' ? 'bg-slate-400' : 'bg-slate-400'
+                            }`}></div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
+                </div>
+            </div>
+
+              {/* Input area - Fixed at bottom */}
+              <div className={`fixed bottom-0 left-0 right-0 px-6 pb-6 pt-4 md:left-64 ${
+                resolvedTheme === 'dark' 
+                  ? 'bg-gradient-to-t from-slate-900 via-slate-900/95 to-transparent' 
+                  : 'bg-gradient-to-t from-slate-50 via-slate-50/95 to-transparent'
+              }`}>
+                <div className={`rounded-2xl border shadow-lg p-1 max-w-4xl mx-auto ${
+                  resolvedTheme === 'dark' 
+                    ? 'bg-slate-800 border-slate-700' 
+                    : 'bg-white border-slate-200'
+                }`}>
+                  <div className="flex items-center gap-2 p-3">
+                  <input
+                      type="text"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      className={`flex-1 bg-transparent px-2 py-1 focus:outline-none text-sm min-w-0 ${
+                        resolvedTheme === 'dark' 
+                          ? 'text-slate-100 placeholder:text-slate-400' 
+                          : 'text-slate-900 placeholder:text-slate-500'
+                      }`}
+                      placeholder="Ask anything..."
+                  />
+                  <button
+                      onClick={handleSend}
+                      disabled={!inputValue.trim() || isTyping}
+                      className={`text-white p-2 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md disabled:cursor-not-allowed flex-shrink-0 ${
+                        resolvedTheme === 'dark'
+                          ? 'bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600'
+                          : 'bg-blue-500 hover:bg-blue-600 disabled:bg-slate-300'
+                      }`}
+                      title={!inputValue.trim() ? "Type a message to send" : isTyping ? "Please wait for the current response" : "Send message"}
+                    >
+                      <Send className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
-          </div>
-
-            {/* Input area - Fixed at bottom */}
-            <div className={`fixed bottom-0 left-0 right-0 px-6 pb-6 pt-4 md:left-64 ${
-              resolvedTheme === 'dark' 
-                ? 'bg-gradient-to-t from-slate-900 via-slate-900/95 to-transparent' 
-                : 'bg-gradient-to-t from-slate-50 via-slate-50/95 to-transparent'
-            }`}>
-              <div className={`rounded-2xl border shadow-lg p-1 max-w-4xl mx-auto ${
-                resolvedTheme === 'dark' 
-                  ? 'bg-slate-800 border-slate-700' 
-                  : 'bg-white border-slate-200'
-              }`}>
-                <div className="flex items-center gap-2 p-3">
-                <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    className={`flex-1 bg-transparent px-2 py-1 focus:outline-none text-sm min-w-0 ${
-                      resolvedTheme === 'dark' 
-                        ? 'text-slate-100 placeholder:text-slate-400' 
-                        : 'text-slate-900 placeholder:text-slate-500'
-                    }`}
-                    placeholder="Ask anything..."
-                />
-                <button
-                    onClick={handleSend}
-                    disabled={!inputValue.trim() || isTyping}
-                    className={`text-white p-2 rounded-xl transition-all duration-200 shadow-sm hover:shadow-md disabled:cursor-not-allowed flex-shrink-0 ${
-                      resolvedTheme === 'dark'
-                        ? 'bg-blue-600 hover:bg-blue-700 disabled:bg-slate-600'
-                        : 'bg-blue-500 hover:bg-blue-600 disabled:bg-slate-300'
-                    }`}
-                    title={!inputValue.trim() ? "Type a message to send" : isTyping ? "Please wait for the current response" : "Send message"}
-                  >
-                    <Send className="w-4 h-4" />
-                </button>
               </div>
-            </div>
-            </div>
 
-            {/* Enhanced styles */}
-            <style>{`
-              /* Custom scrollbar */
-              div::-webkit-scrollbar {
-                width: 6px;
-              }
-              div::-webkit-scrollbar-track {
-                background: rgba(51, 65, 85, 0.3);
-                border-radius: 3px;
-              }
-              div::-webkit-scrollbar-thumb {
-                background: rgba(100, 116, 139, 0.5);
-                border-radius: 3px;
-              }
-              div::-webkit-scrollbar-thumb:hover {
-                background: rgba(100, 116, 139, 0.7);
-              }
-
-              /* Enhanced List Styling - Similar to ChatBox */
-              .modern-analysis-container ul,
-              .modern-analysis-container ol {
-                margin: 0;
-                padding-left: 16px;
-                list-style: none;
-              }
-              
-              .modern-analysis-container ul li {
-                position: relative;
-                margin: 0;
-                padding-left: 16px;
-                list-style: none;
-                line-height: 1.4;
-                display: list-item;
-              }
-              
-              .modern-analysis-container ul li::before {
-                content: "•";
-                position: absolute;
-                left: 0;
-                color: #22d3ee;
-                font-weight: bold;
-                font-size: 14px;
-                line-height: 1.4;
-              }
-              
-              .modern-analysis-container ol {
-                list-style: decimal;
-                list-style-position: inside;
-                padding-left: 16px;
-              }
-              
-              .modern-analysis-container ol li {
-                position: relative;
-                margin: 0;
-                padding-left: 8px;
-                display: list-item;
-                line-height: 1.4;
-              }
-              
-              .modern-analysis-container ol li::marker {
-                color: #22d3ee;
-                font-weight: bold;
-              }
-
-              /* Chat message specific list styling - Match ChatBox approach */
-              .max-w-none ul,
-              .markdown-content ul {
-                margin: 0 !important;
-                padding-left: 16px !important;
-                list-style: none !important;
-                display: block !important;
-              }
-              
-              .max-w-none ul li,
-              .markdown-content ul li {
-                position: relative !important;
-                margin: 0 !important;
-                padding-left: 16px !important;
-                list-style: none !important;
-                display: list-item !important;
-                line-height: 1.4 !important;
-              }
-              
-              .max-w-none ul li::before,
-              .markdown-content ul li::before {
-                content: "•" !important;
-                position: absolute !important;
-                left: 0 !important;
-                color: #22d3ee !important;
-                font-weight: bold !important;
-                font-size: 14px !important;
-                line-height: 1.4 !important;
-              }
-              
-              .max-w-none ol,
-              .markdown-content ol {
-                list-style: decimal !important;
-                list-style-position: inside !important;
-                margin: 0 !important;
-                padding-left: 16px !important;
-                display: block !important;
-              }
-              
-              .max-w-none ol li,
-              .markdown-content ol li {
-                position: relative !important;
-                margin: 0 !important;
-                padding-left: 8px !important;
-                display: list-item !important;
-                line-height: 1.4 !important;
-              }
-              
-              .max-w-none ol li::marker,
-              .markdown-content ol li::marker {
-                color: #22d3ee !important;
-                font-weight: bold !important;
-              }
-
-              /* Force proper list display */
-              .markdown-content ul,
-              .markdown-content ol {
-                display: block !important;
-              }
-              
-              .markdown-content li {
-                display: list-item !important;
-              }
-
-              /* Improved spacing for paragraphs in lists */
-              .markdown-content li p,
-              .max-w-none li p {
-                margin: 0 !important;
-                display: inline !important;
-              }
-
-              /* Modern Security Report Styles */
-              .security-report {
-                max-width: 100%;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                color: #e2e8f0;
-                line-height: 1.6;
-              }
-
-              /* Report Header */
-              .report-header {
-                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-                border: 1px solid #475569;
-                border-radius: 16px;
-                padding: 24px;
-                margin-bottom: 24px;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-              }
-
-              .header-icon {
-                font-size: 32px;
-                margin-bottom: 12px;
-              }
-
-              .report-header h1 {
-                font-size: 24px;
-                font-weight: 700;
-                color: #ffffff;
-                margin: 0 0 16px 0;
-              }
-
-              .report-meta {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 16px;
-              }
-
-              .meta-item {
-                display: flex;
-                flex-direction: column;
-                gap: 4px;
-              }
-
-              .meta-label {
-                font-size: 11px;
-                font-weight: 600;
-                color: #94a3b8;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-              }
-
-              .meta-value {
-                font-size: 13px;
-                color: #e2e8f0;
-                font-weight: 500;
-              }
-
-              .address-code {
-                background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
-                color: #22d3ee;
-                padding: 6px 12px;
-                border-radius: 8px;
-                font-family: 'JetBrains Mono', 'Fira Code', monospace;
-                font-size: 12px;
-                border: 1px solid #6b7280;
-                word-break: break-all;
-              }
-
-              /* Risk Assessment */
-              .risk-assessment {
-                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-                border-radius: 16px;
-                padding: 24px;
-                margin-bottom: 24px;
-                border-width: 2px;
-                border-style: solid;
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-              }
-
-              .risk-assessment.high {
-                border-color: #ef4444;
-                box-shadow: 0 8px 32px rgba(239, 68, 68, 0.2);
-              }
-
-              .risk-assessment.medium {
-                border-color: #f59e0b;
-                box-shadow: 0 8px 32px rgba(245, 158, 11, 0.2);
-              }
-
-              .risk-assessment.low {
-                border-color: #10b981;
-                box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
-              }
-
-              .risk-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 20px;
-              }
-
-              .risk-header h2 {
-                font-size: 20px;
-                font-weight: 600;
-                color: #ffffff;
-                margin: 0;
-              }
-
-              .risk-badge {
-                padding: 6px 16px;
-                border-radius: 20px;
-                font-size: 11px;
-                font-weight: 700;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-              }
-
-              .risk-badge.high {
-                background: linear-gradient(135deg, #dc2626, #ef4444);
-                color: #ffffff;
-              }
-
-              .risk-badge.medium {
-                background: linear-gradient(135deg, #d97706, #f59e0b);
-                color: #ffffff;
-              }
-
-              .risk-badge.low {
-                background: linear-gradient(135deg, #059669, #10b981);
-                color: #ffffff;
-              }
-
-              .risk-metrics {
-                display: grid;
-                grid-template-columns: 2fr 1fr;
-                gap: 24px;
-                align-items: center;
-              }
-
-              .risk-score-container {
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-              }
-
-              .risk-score-label {
-                font-size: 12px;
-                color: #94a3b8;
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-              }
-
-              .risk-score-display {
-                display: flex;
-                align-items: baseline;
-                gap: 4px;
-              }
-
-              .score-number {
-                font-size: 36px;
-                font-weight: 800;
-                color: #ffffff;
-              }
-
-              .score-max {
-                font-size: 18px;
-                color: #94a3b8;
-                font-weight: 500;
-              }
-
-              .risk-progress {
-                width: 100%;
-              }
-
-              .progress-bar {
-                width: 100%;
-                height: 8px;
-                background: #374151;
-                border-radius: 4px;
-                overflow: hidden;
-              }
-
-              .progress-fill {
-                height: 100%;
-                border-radius: 4px;
-                transition: width 1s ease-in-out;
-              }
-
-              .progress-fill.high {
-                background: linear-gradient(90deg, #dc2626, #ef4444);
-              }
-
-              .progress-fill.medium {
-                background: linear-gradient(90deg, #d97706, #f59e0b);
-              }
-
-              .progress-fill.low {
-                background: linear-gradient(90deg, #059669, #10b981);
-              }
-
-              .threat-count {
-                display: flex;
-                align-items: center;
-                gap: 16px;
-                padding: 20px;
-                background: rgba(30, 41, 59, 0.5);
-                border-radius: 12px;
-                border: 1px solid #475569;
-              }
-
-              .threat-icon {
-                font-size: 24px;
-              }
-
-              .threat-number {
-                font-size: 28px;
-                font-weight: 700;
-                color: #ffffff;
-              }
-
-              .threat-label {
-                font-size: 12px;
-                color: #94a3b8;
-                text-transform: uppercase;
-                font-weight: 600;
-              }
-
-              /* Threats Section */
-              .threats-section {
-                margin-bottom: 24px;
-              }
-
-              .threats-section h2 {
-                font-size: 20px;
-                font-weight: 600;
-                color: #ffffff;
-                margin: 0 0 16px 0;
-              }
-
-              .threats-grid {
-                display: flex;
-                flex-direction: column;
-                gap: 16px;
-              }
-
-              .threat-card {
-                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-                border: 1px solid #ef4444;
-                border-radius: 12px;
-                overflow: hidden;
-                box-shadow: 0 4px 16px rgba(239, 68, 68, 0.1);
-              }
-
-              .threat-header {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 16px 20px;
-                background: rgba(239, 68, 68, 0.1);
-                border-bottom: 1px solid rgba(239, 68, 68, 0.2);
-              }
-
-              .threat-index {
-                background: #ef4444;
-                color: #ffffff;
-                width: 24px;
-                height: 24px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 12px;
-                font-weight: 700;
-              }
-
-              .threat-title {
-                flex-grow: 1;
-                font-size: 16px;
-                font-weight: 600;
-                color: #ffffff;
-                margin: 0;
-              }
-
-              .confidence-badge {
-                padding: 4px 12px;
-                border-radius: 12px;
-                font-size: 10px;
-                font-weight: 700;
-                text-transform: uppercase;
-              }
-
-              .confidence-badge.high {
-                background: #dc2626;
-                color: #ffffff;
-              }
-
-              .confidence-badge.medium {
-                background: #f59e0b;
-                color: #ffffff;
-              }
-
-              .confidence-badge.low {
-                background: #10b981;
-                color: #ffffff;
-              }
-
-              .threat-content {
-                padding: 20px;
-              }
-
-              .threat-description {
-                font-size: 14px;
-                color: #e2e8f0;
-                margin-bottom: 16px;
-                line-height: 1.6;
-              }
-
-              .evidence-section {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                padding: 12px 16px;
-                background: rgba(30, 41, 59, 0.5);
-                border-radius: 8px;
-                margin-bottom: 16px;
-                border: 1px solid #475569;
-              }
-
-              .evidence-icon {
-                font-size: 16px;
-              }
-
-              .evidence-text {
-                font-size: 12px;
-                color: #94a3b8;
-              }
-
-              .actions-section h4 {
-                font-size: 14px;
-                font-weight: 600;
-                color: #ffffff;
-                margin: 0 0 12px 0;
-              }
-
-              .actions-list {
-                margin: 0;
-                padding-left: 16px;
-                list-style-type: none;
-              }
-
-              .actions-list li {
-                position: relative;
-                font-size: 13px;
-                color: #cbd5e1;
-                margin-bottom: 8px;
-                padding-left: 16px;
-                line-height: 1.4;
-              }
-
-              .actions-list li::before {
-                content: "→";
-                position: absolute;
-                left: 0;
-                color: #22d3ee;
-                font-weight: 600;
-              }
-
-              /* No Threats Section */
-              .no-threats-section {
-                text-align: center;
-                padding: 40px;
-                background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
-                border: 1px solid #10b981;
-                border-radius: 16px;
-                margin-bottom: 24px;
-              }
-
-              .success-icon {
-                font-size: 48px;
-                margin-bottom: 16px;
-              }
-
-              .no-threats-section h2 {
-                font-size: 20px;
-                font-weight: 600;
-                color: #ffffff;
-                margin: 0 0 8px 0;
-              }
-
-              .no-threats-section p {
-                font-size: 14px;
-                color: #a7f3d0;
-                margin: 0;
-              }
-
-              /* Analytics Section */
-              .analytics-section {
-                margin-bottom: 24px;
-              }
-
-              .analytics-section h2 {
-                font-size: 20px;
-                font-weight: 600;
-                color: #ffffff;
-                margin: 0 0 16px 0;
-              }
-
-              .analytics-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-                gap: 16px;
-              }
-
-              .analytics-card {
-                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-                border: 1px solid #475569;
-                border-radius: 12px;
-                padding: 20px;
-                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-              }
-
-              .card-header {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                margin-bottom: 16px;
-              }
-
-              .card-icon {
-                font-size: 20px;
-              }
-
-              .card-header h3 {
-                font-size: 16px;
-                font-weight: 600;
-                color: #ffffff;
-                margin: 0;
-              }
-
-              .metrics-list {
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-              }
-
-              .metric-item {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 8px 0;
-              }
-
-              .metric-value {
-                font-size: 18px;
-                font-weight: 700;
-                color: #22d3ee;
-              }
-
-              .metric-label {
-                font-size: 12px;
-                color: #94a3b8;
-                font-weight: 500;
-              }
-
-              /* Notes Section */
-              .notes-section {
-                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-                border: 1px solid #475569;
-                border-radius: 12px;
-                padding: 20px;
-                margin-bottom: 24px;
-              }
-
-              .notes-header {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                margin-bottom: 12px;
-              }
-
-              .notes-icon {
-                font-size: 20px;
-              }
-
-              .notes-header h3 {
-                font-size: 16px;
-                font-weight: 600;
-                color: #ffffff;
-                margin: 0;
-              }
-
-              .notes-content {
-                font-size: 14px;
-                color: #cbd5e1;
-                line-height: 1.6;
-              }
-
-              /* Report Footer */
-              .report-footer {
-                background: rgba(30, 41, 59, 0.5);
-                border: 1px solid #475569;
-                border-radius: 12px;
-                padding: 20px;
-                margin-top: 24px;
-              }
-
-              .footer-info {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 12px;
-                margin-bottom: 16px;
-              }
-
-              .footer-info strong {
-                color: #22d3ee;
-                font-weight: 600;
-              }
-
-              .footer-info code {
-                background: #374151;
-                color: #22d3ee;
-                padding: 2px 8px;
-                border-radius: 4px;
-                font-size: 11px;
-              }
-
-              .disclaimer {
-                font-size: 12px;
-                color: #6b7280;
-                font-style: italic;
-                text-align: center;
-                padding-top: 16px;
-                border-top: 1px solid #374151;
-              }
-
-              /* Analysis Incomplete */
-              .analysis-incomplete {
-                text-align: center;
-                padding: 40px;
-                background: linear-gradient(135deg, #7c2d12 0%, #dc2626 100%);
-                border: 1px solid #ef4444;
-                border-radius: 16px;
-              }
-
-              .error-icon {
-                font-size: 48px;
-                margin-bottom: 16px;
-              }
-
-              .analysis-incomplete h2 {
-                font-size: 20px;
-                font-weight: 600;
-                color: #ffffff;
-                margin: 0 0 12px 0;
-              }
-
-              .address-display {
-                background: rgba(0, 0, 0, 0.3);
-                color: #22d3ee;
-                padding: 8px 16px;
-                border-radius: 8px;
-                font-family: monospace;
-                font-size: 12px;
-                margin: 16px 0;
-                word-break: break-all;
-              }
-
-              .analysis-incomplete p {
-                font-size: 14px;
-                color: #fca5a5;
-                margin: 0;
-              }
-
-              /* Responsive adjustments */
-              @media (max-width: 768px) {
-                .risk-metrics {
-                  grid-template-columns: 1fr;
+              {/* Enhanced styles */}
+              <style>{`
+                /* Custom scrollbar */
+                div::-webkit-scrollbar {
+                  width: 6px;
+                }
+                div::-webkit-scrollbar-track {
+                  background: rgba(51, 65, 85, 0.3);
+                  border-radius: 3px;
+                }
+                div::-webkit-scrollbar-thumb {
+                  background: rgba(100, 116, 139, 0.5);
+                  border-radius: 3px;
+                }
+                div::-webkit-scrollbar-thumb:hover {
+                  background: rgba(100, 116, 139, 0.7);
+                }
+
+                /* Enhanced List Styling - Similar to ChatBox */
+                .modern-analysis-container ul,
+                .modern-analysis-container ol {
+                  margin: 0;
+                  padding-left: 16px;
+                  list-style: none;
+                }
+                
+                .modern-analysis-container ul li {
+                  position: relative;
+                  margin: 0;
+                  padding-left: 16px;
+                  list-style: none;
+                  line-height: 1.4;
+                  display: list-item;
+                }
+                
+                .modern-analysis-container ul li::before {
+                  content: "•";
+                  position: absolute;
+                  left: 0;
+                  color: #22d3ee;
+                  font-weight: bold;
+                  font-size: 14px;
+                  line-height: 1.4;
+                }
+                
+                .modern-analysis-container ol {
+                  list-style: decimal;
+                  list-style-position: inside;
+                  padding-left: 16px;
+                }
+                
+                .modern-analysis-container ol li {
+                  position: relative;
+                  margin: 0;
+                  padding-left: 8px;
+                  display: list-item;
+                  line-height: 1.4;
+                }
+                
+                .modern-analysis-container ol li::marker {
+                  color: #22d3ee;
+                  font-weight: bold;
+                }
+
+                /* Chat message specific list styling - Match ChatBox approach */
+                .max-w-none ul,
+                .markdown-content ul {
+                  margin: 0 !important;
+                  padding-left: 16px !important;
+                  list-style: none !important;
+                  display: block !important;
+                }
+                
+                .max-w-none ul li,
+                .markdown-content ul li {
+                  position: relative !important;
+                  margin: 0 !important;
+                  padding-left: 16px !important;
+                  list-style: none !important;
+                  display: list-item !important;
+                  line-height: 1.4 !important;
+                }
+                
+                .max-w-none ul li::before,
+                .markdown-content ul li::before {
+                  content: "•" !important;
+                  position: absolute !important;
+                  left: 0 !important;
+                  color: #22d3ee !important;
+                  font-weight: bold !important;
+                  font-size: 14px !important;
+                  line-height: 1.4 !important;
+                }
+                
+                .max-w-none ol,
+                .markdown-content ol {
+                  list-style: decimal !important;
+                  list-style-position: inside !important;
+                  margin: 0 !important;
+                  padding-left: 16px !important;
+                  display: block !important;
+                }
+                
+                .max-w-none ol li,
+                .markdown-content ol li {
+                  position: relative !important;
+                  margin: 0 !important;
+                  padding-left: 8px !important;
+                  display: list-item !important;
+                  line-height: 1.4 !important;
+                }
+                
+                .max-w-none ol li::marker,
+                .markdown-content ol li::marker {
+                  color: #22d3ee !important;
+                  font-weight: bold !important;
+                }
+
+                /* Force proper list display */
+                .markdown-content ul,
+                .markdown-content ol {
+                  display: block !important;
+                }
+                
+                .markdown-content li {
+                  display: list-item !important;
+                }
+
+                /* Improved spacing for paragraphs in lists */
+                .markdown-content li p,
+                .max-w-none li p {
+                  margin: 0 !important;
+                  display: inline !important;
+                }
+
+                /* Modern Security Report Styles */
+                .security-report {
+                  max-width: 100%;
+                  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                  color: #e2e8f0;
+                  line-height: 1.6;
+                }
+
+                /* Report Header */
+                .report-header {
+                  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                  border: 1px solid #475569;
+                  border-radius: 16px;
+                  padding: 24px;
+                  margin-bottom: 24px;
+                  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                }
+
+                .header-icon {
+                  font-size: 32px;
+                  margin-bottom: 12px;
+                }
+
+                .report-header h1 {
+                  font-size: 24px;
+                  font-weight: 700;
+                  color: #ffffff;
+                  margin: 0 0 16px 0;
+                }
+
+                .report-meta {
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                   gap: 16px;
                 }
-                
-                .report-meta {
-                  grid-template-columns: 1fr;
+
+                .meta-item {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 4px;
                 }
-                
+
+                .meta-label {
+                  font-size: 11px;
+                  font-weight: 600;
+                  color: #94a3b8;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                }
+
+                .meta-value {
+                  font-size: 13px;
+                  color: #e2e8f0;
+                  font-weight: 500;
+                }
+
+                .address-code {
+                  background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+                  color: #22d3ee;
+                  padding: 6px 12px;
+                  border-radius: 8px;
+                  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+                  font-size: 12px;
+                  border: 1px solid #6b7280;
+                  word-break: break-all;
+                }
+
+                /* Risk Assessment */
+                .risk-assessment {
+                  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                  border-radius: 16px;
+                  padding: 24px;
+                  margin-bottom: 24px;
+                  border-width: 2px;
+                  border-style: solid;
+                  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+                }
+
+                .risk-assessment.high {
+                  border-color: #ef4444;
+                  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.2);
+                }
+
+                .risk-assessment.medium {
+                  border-color: #f59e0b;
+                  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.2);
+                }
+
+                .risk-assessment.low {
+                  border-color: #10b981;
+                  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.2);
+                }
+
+                .risk-header {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 20px;
+                }
+
+                .risk-header h2 {
+                  font-size: 20px;
+                  font-weight: 600;
+                  color: #ffffff;
+                  margin: 0;
+                }
+
+                .risk-badge {
+                  padding: 6px 16px;
+                  border-radius: 20px;
+                  font-size: 11px;
+                  font-weight: 700;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                }
+
+                .risk-badge.high {
+                  background: linear-gradient(135deg, #dc2626, #ef4444);
+                  color: #ffffff;
+                }
+
+                .risk-badge.medium {
+                  background: linear-gradient(135deg, #d97706, #f59e0b);
+                  color: #ffffff;
+                }
+
+                .risk-badge.low {
+                  background: linear-gradient(135deg, #059669, #10b981);
+                  color: #ffffff;
+                }
+
+                .risk-metrics {
+                  display: grid;
+                  grid-template-columns: 2fr 1fr;
+                  gap: 24px;
+                  align-items: center;
+                }
+
+                .risk-score-container {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 12px;
+                }
+
+                .risk-score-label {
+                  font-size: 12px;
+                  color: #94a3b8;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                }
+
+                .risk-score-display {
+                  display: flex;
+                  align-items: baseline;
+                  gap: 4px;
+                }
+
+                .score-number {
+                  font-size: 36px;
+                  font-weight: 800;
+                  color: #ffffff;
+                }
+
+                .score-max {
+                  font-size: 18px;
+                  color: #94a3b8;
+                  font-weight: 500;
+                }
+
+                .risk-progress {
+                  width: 100%;
+                }
+
+                .progress-bar {
+                  width: 100%;
+                  height: 8px;
+                  background: #374151;
+                  border-radius: 4px;
+                  overflow: hidden;
+                }
+
+                .progress-fill {
+                  height: 100%;
+                  border-radius: 4px;
+                  transition: width 1s ease-in-out;
+                }
+
+                .progress-fill.high {
+                  background: linear-gradient(90deg, #dc2626, #ef4444);
+                }
+
+                .progress-fill.medium {
+                  background: linear-gradient(90deg, #d97706, #f59e0b);
+                }
+
+                .progress-fill.low {
+                  background: linear-gradient(90deg, #059669, #10b981);
+                }
+
+                .threat-count {
+                  display: flex;
+                  align-items: center;
+                  gap: 16px;
+                  padding: 20px;
+                  background: rgba(30, 41, 59, 0.5);
+                  border-radius: 12px;
+                  border: 1px solid #475569;
+                }
+
+                .threat-icon {
+                  font-size: 24px;
+                }
+
+                .threat-number {
+                  font-size: 28px;
+                  font-weight: 700;
+                  color: #ffffff;
+                }
+
+                .threat-label {
+                  font-size: 12px;
+                  color: #94a3b8;
+                  text-transform: uppercase;
+                  font-weight: 600;
+                }
+
+                /* Threats Section */
+                .threats-section {
+                  margin-bottom: 24px;
+                }
+
+                .threats-section h2 {
+                  font-size: 20px;
+                  font-weight: 600;
+                  color: #ffffff;
+                  margin: 0 0 16px 0;
+                }
+
+                .threats-grid {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 16px;
+                }
+
+                .threat-card {
+                  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                  border: 1px solid #ef4444;
+                  border-radius: 12px;
+                  overflow: hidden;
+                  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.1);
+                }
+
+                .threat-header {
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  padding: 16px 20px;
+                  background: rgba(239, 68, 68, 0.1);
+                  border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+                }
+
+                .threat-index {
+                  background: #ef4444;
+                  color: #ffffff;
+                  width: 24px;
+                  height: 24px;
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  font-size: 12px;
+                  font-weight: 700;
+                }
+
+                .threat-title {
+                  flex-grow: 1;
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: #ffffff;
+                  margin: 0;
+                }
+
+                .confidence-badge {
+                  padding: 4px 12px;
+                  border-radius: 12px;
+                  font-size: 10px;
+                  font-weight: 700;
+                  text-transform: uppercase;
+                }
+
+                .confidence-badge.high {
+                  background: #dc2626;
+                  color: #ffffff;
+                }
+
+                .confidence-badge.medium {
+                  background: #f59e0b;
+                  color: #ffffff;
+                }
+
+                .confidence-badge.low {
+                  background: #10b981;
+                  color: #ffffff;
+                }
+
+                .threat-content {
+                  padding: 20px;
+                }
+
+                .threat-description {
+                  font-size: 14px;
+                  color: #e2e8f0;
+                  margin-bottom: 16px;
+                  line-height: 1.6;
+                }
+
+                .evidence-section {
+                  display: flex;
+                  align-items: center;
+                  gap: 8px;
+                  padding: 12px 16px;
+                  background: rgba(30, 41, 59, 0.5);
+                  border-radius: 8px;
+                  margin-bottom: 16px;
+                  border: 1px solid #475569;
+                }
+
+                .evidence-icon {
+                  font-size: 16px;
+                }
+
+                .evidence-text {
+                  font-size: 12px;
+                  color: #94a3b8;
+                }
+
+                .actions-section h4 {
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: #ffffff;
+                  margin: 0 0 12px 0;
+                }
+
+                .actions-list {
+                  margin: 0;
+                  padding-left: 16px;
+                  list-style-type: none;
+                }
+
+                .actions-list li {
+                  position: relative;
+                  font-size: 13px;
+                  color: #cbd5e1;
+                  margin-bottom: 8px;
+                  padding-left: 16px;
+                  line-height: 1.4;
+                }
+
+                .actions-list li::before {
+                  content: "→";
+                  position: absolute;
+                  left: 0;
+                  color: #22d3ee;
+                  font-weight: 600;
+                }
+
+                /* No Threats Section */
+                .no-threats-section {
+                  text-align: center;
+                  padding: 40px;
+                  background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+                  border: 1px solid #10b981;
+                  border-radius: 16px;
+                  margin-bottom: 24px;
+                }
+
+                .success-icon {
+                  font-size: 48px;
+                  margin-bottom: 16px;
+                }
+
+                .no-threats-section h2 {
+                  font-size: 20px;
+                  font-weight: 600;
+                  color: #ffffff;
+                  margin: 0 0 8px 0;
+                }
+
+                .no-threats-section p {
+                  font-size: 14px;
+                  color: #a7f3d0;
+                  margin: 0;
+                }
+
+                /* Analytics Section */
+                .analytics-section {
+                  margin-bottom: 24px;
+                }
+
+                .analytics-section h2 {
+                  font-size: 20px;
+                  font-weight: 600;
+                  color: #ffffff;
+                  margin: 0 0 16px 0;
+                }
+
                 .analytics-grid {
-                  grid-template-columns: 1fr;
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                  gap: 16px;
                 }
-                
+
+                .analytics-card {
+                  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                  border: 1px solid #475569;
+                  border-radius: 12px;
+                  padding: 20px;
+                  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+                }
+
+                .card-header {
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  margin-bottom: 16px;
+                }
+
+                .card-icon {
+                  font-size: 20px;
+                }
+
+                .card-header h3 {
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: #ffffff;
+                  margin: 0;
+                }
+
+                .metrics-list {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 12px;
+                }
+
+                .metric-item {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  padding: 8px 0;
+                }
+
+                .metric-value {
+                  font-size: 18px;
+                  font-weight: 700;
+                  color: #22d3ee;
+                }
+
+                .metric-label {
+                  font-size: 12px;
+                  color: #94a3b8;
+                  font-weight: 500;
+                }
+
+                /* Notes Section */
+                .notes-section {
+                  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                  border: 1px solid #475569;
+                  border-radius: 12px;
+                  padding: 20px;
+                  margin-bottom: 24px;
+                }
+
+                .notes-header {
+                  display: flex;
+                  align-items: center;
+                  gap: 12px;
+                  margin-bottom: 12px;
+                }
+
+                .notes-icon {
+                  font-size: 20px;
+                }
+
+                .notes-header h3 {
+                  font-size: 16px;
+                  font-weight: 600;
+                  color: #ffffff;
+                  margin: 0;
+                }
+
+                .notes-content {
+                  font-size: 14px;
+                  color: #cbd5e1;
+                  line-height: 1.6;
+                }
+
+                /* Report Footer */
+                .report-footer {
+                  background: rgba(30, 41, 59, 0.5);
+                  border: 1px solid #475569;
+                  border-radius: 12px;
+                  padding: 20px;
+                  margin-top: 24px;
+                }
+
                 .footer-info {
-                  grid-template-columns: 1fr;
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                  gap: 12px;
+                  margin-bottom: 16px;
                 }
-              }
-            `}</style>
-          </div>
-        </main>
+
+                .footer-info strong {
+                  color: #22d3ee;
+                  font-weight: 600;
+                }
+
+                .footer-info code {
+                  background: #374151;
+                  color: #22d3ee;
+                  padding: 2px 8px;
+                  border-radius: 4px;
+                  font-size: 11px;
+                }
+
+                .disclaimer {
+                  font-size: 12px;
+                  color: #6b7280;
+                  font-style: italic;
+                  text-align: center;
+                  padding-top: 16px;
+                  border-top: 1px solid #374151;
+                }
+
+                /* Analysis Incomplete */
+                .analysis-incomplete {
+                  text-align: center;
+                  padding: 40px;
+                  background: linear-gradient(135deg, #7c2d12 0%, #dc2626 100%);
+                  border: 1px solid #ef4444;
+                  border-radius: 16px;
+                }
+
+                .error-icon {
+                  font-size: 48px;
+                  margin-bottom: 16px;
+                }
+
+                .analysis-incomplete h2 {
+                  font-size: 20px;
+                  font-weight: 600;
+                  color: #ffffff;
+                  margin: 0 0 12px 0;
+                }
+
+                .address-display {
+                  background: rgba(0, 0, 0, 0.3);
+                  color: #22d3ee;
+                  padding: 8px 16px;
+                  border-radius: 8px;
+                  font-family: monospace;
+                  font-size: 12px;
+                  margin: 16px 0;
+                  word-break: break-all;
+                }
+
+                .analysis-incomplete p {
+                  font-size: 14px;
+                  color: #fca5a5;
+                  margin: 0;
+                }
+
+                /* Responsive adjustments */
+                @media (max-width: 768px) {
+                  .risk-metrics {
+                    grid-template-columns: 1fr;
+                    gap: 16px;
+                  }
+                  
+                  .report-meta {
+                    grid-template-columns: 1fr;
+                  }
+                  
+                  .analytics-grid {
+                    grid-template-columns: 1fr;
+                  }
+                  
+                  .footer-info {
+                    grid-template-columns: 1fr;
+                  }
+                }
+              `}</style>
+            </div>
+          </Layout>
+
+          </main>
       </div>
     </div>
   )

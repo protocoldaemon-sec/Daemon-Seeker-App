@@ -3,7 +3,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.daemon.seeker',
   appName: 'Daemon Seeker App',
-  webDir: 'dist',
+  webDir: 'dist/spa',
   server: {
     androidScheme: 'https'
   },
