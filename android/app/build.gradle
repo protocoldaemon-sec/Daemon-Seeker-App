@@ -19,9 +19,9 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('daemon-seeker.keystore')
+            storeFile file('daemon-seeker-new.keystore')
             storePassword 'daemonprotocol'
-            keyAlias 'daemon-protocol'
+            keyAlias 'daemonprotocol'
             keyPassword 'daemonprotocol'
         }
     }
